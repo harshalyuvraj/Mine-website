@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mining Machinery & Operations</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .input-group { margin: 1rem 0; }
+        .input-group label { display: block; margin-bottom: 0.5rem; }
+        .matrix-input { display: grid; gap: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mining Machinery & Operations</h1>
+        <p>Equipment selection, performance optimization, maintenance planning, and operational systems for extraction and material handling.</p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+
+        <!-- Prismoidal Formula Calculator -->
+<div class="formula-block" data-name="prismoidal-volume">
+    <section class="content">
+        <h2>Prismoidal Volume Formula</h2>
+        <div>\[ V = \frac{L}{6} \left(A_1 + 4A_m + A_2\right) \]</div>
+        <form id="prismoidalForm">
+            <label>Area 1 (A₁): <input type="number" id="a1"></label>
+            <label>Mid Area (Aₘ): <input type="number" id="am"></label>
+            <label>Area 2 (A₂): <input type="number" id="a2"></label>
+            <label>Distance (L): <input type="number" id="length"></label>
+            <button type="submit">Calculate Volume</button>
+        </form>
+        <div id="prismoidalResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Traverse Closing Error Calculator -->
+<div class="formula-block" data-name="closing-error">
+    <section class="content">
+        <h2>Traverse Closing Error</h2>
+        <div>\[ E = \sqrt{(\Sigma Lat)^2 + (\Sigma Dep)^2} \]</div>
+        <form id="traverseForm">
+            <label>Sum of Latitudes: <input type="number" id="sumLat"></label>
+            <label>Sum of Departures: <input type="number" id="sumDep"></label>
+            <button type="submit">Calculate Error</button>
+        </form>
+        <div id="traverseResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Bearing Conversion Calculator -->
+<div class="formula-block" data-name="bearing-conversion">
+    <section class="content">
+        <h2>WCB to RB Conversion</h2>
+        <div>\[ \text{Quadrant Awareness} \]</div>
+        <form id="bearingForm">
+            <label>Whole Circle Bearing: <input type="number" id="wcb"></label>
+            <button type="submit">Convert</button>
+        </form>
+        <div id="bearingResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Bowditch Rule Calculator -->
+<div class="formula-block" data-name="bowditch-rule">
+    <section class="content">
+        <h2>Bowditch Adjustment</h2>
+        <div>\[ \text{Correction} = \frac{E \times \text{Side Length}}{\text{Total Perimeter}} \]</div>
+        <form id="bowditchForm">
+            <label>Closing Error (E): <input type="number" id="error"></label>
+            <label>Side Length: <input type="number" id="sideLength"></label>
+            <label>Total Perimeter: <input type="number" id="perimeter"></label>
+            <button type="submit">Calculate Correction</button>
+        </form>
+        <div id="bowditchResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Weisbach Shaft Correlation -->
+<div class="formula-block" data-name="weisbach-method">
+    <section class="content">
+        <h2>Weisbach Triangle Method</h2>
+        <div>\[ \sin \alpha = \frac{b}{c} \sin \beta \]</div>
+        <form id="weisbachForm">
+            <label>Angle α: <input type="number" id="alpha"></label>
+            <label>Angle β: <input type="number" id="beta"></label>
+            <label>Side b: <input type="number" id="sideB"></label>
+            <button type="submit">Calculate Side c</button>
+        </form>
+        <div id="weisbachResult" class="result-box"></div>
+    </section>
+</div>
+
+
+
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | Mining Machinery & Operations Section</p>
+    </footer>
+
+    <script>
+
+        // Prismoidal Volume Calculation
+document.getElementById("prismoidalForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const a1 = parseFloat(document.getElementById("a1").value);
+    const am = parseFloat(document.getElementById("am").value);
+    const a2 = parseFloat(document.getElementById("a2").value);
+    const L = parseFloat(document.getElementById("length").value);
+    
+    if ([a1, am, a2, L].some(isNaN)) {
+        document.getElementById("prismoidalResult").innerHTML = "Invalid inputs";
+        return;
+    }
+    
+    const volume = (L/6) * (a1 + 4*am + a2);
+    document.getElementById("prismoidalResult").innerHTML = 
+        `Volume: <b>${volume.toFixed(2)} m³</b>`;
+});
+
+// Traverse Closing Error
+document.getElementById("traverseForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const lat = parseFloat(document.getElementById("sumLat").value);
+    const dep = parseFloat(document.getElementById("sumDep").value);
+    
+    if (isNaN(lat) || isNaN(dep)) {
+        document.getElementById("traverseResult").innerHTML = "Invalid inputs";
+        return;
+    }
+    
+    const error = Math.sqrt(Math.pow(lat, 2) + Math.pow(dep, 2));
+    document.getElementById("traverseResult").innerHTML = 
+        `Closing Error: <b>${error.toFixed(4)} units</b>`;
+});
+
+// Bearing Conversion (WCB to RB)
+document.getElementById("bearingForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const wcb = parseFloat(document.getElementById("wcb").value);
+    
+    if (isNaN(wcb)) {
+        document.getElementById("bearingResult").innerHTML = "Invalid bearing";
+        return;
+    }
+    
+    let rb;
+    if(wcb >= 0 && wcb < 90) rb = `N${wcb.toFixed(2)}°E`;
+    else if(wcb >= 90 && wcb < 180) rb = `S${(180-wcb).toFixed(2)}°E`;
+    else if(wcb >= 180 && wcb < 270) rb = `S${(wcb-180).toFixed(2)}°W`;
+    else rb = `N${(360-wcb).toFixed(2)}°W`;
+    
+    document.getElementById("bearingResult").innerHTML = 
+        `Reduced Bearing: <b>${rb}</b>`;
+});
+
+// Bowditch Rule Correction
+document.getElementById("bowditchForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const error = parseFloat(document.getElementById("error").value);
+    const side = parseFloat(document.getElementById("sideLength").value);
+    const perimeter = parseFloat(document.getElementById("perimeter").value);
+    
+    if (perimeter === 0 || [error, side, perimeter].some(isNaN)) {
+        document.getElementById("bowditchResult").innerHTML = "Invalid inputs";
+        return;
+    }
+    
+    const correction = (error * side) / perimeter;
+    document.getElementById("bowditchResult").innerHTML = 
+        `Correction: <b>${correction.toFixed(4)}</b>`;
+});
+
+// Weisbach Shaft Correlation
+document.getElementById("weisbachForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const alpha = parseFloat(document.getElementById("alpha").value) * Math.PI/180;
+    const beta = parseFloat(document.getElementById("beta").value) * Math.PI/180;
+    const b = parseFloat(document.getElementById("sideB").value);
+    
+    if ([alpha, beta, b].some(isNaN)) {
+        document.getElementById("weisbachResult").innerHTML = "Invalid inputs";
+        return;
+    }
+    
+    const c = (b * Math.sin(beta)) / Math.sin(alpha);
+    document.getElementById("weisbachResult").innerHTML = 
+        `Calculated Side c: <b>${c.toFixed(2)} units</b>`;
+});
+
+
+
+        // Search functionality
+        document.getElementById("searchBox").addEventListener("input", function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll(".formula-block").forEach(block => {
+                const name = block.dataset.name.toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

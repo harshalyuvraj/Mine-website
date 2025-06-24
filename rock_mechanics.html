@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Mechanics</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/nerdamer.core.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Algebra.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Rock Mechanics</h1>
+    
+    <!-- Search Bar -->
+    <input type="text" id="search" placeholder="Search (e.g., Hoek-Brown, Q-system)">  
+    
+    <!-- Formula Selection Dropdown -->
+    <select id="formulaSelector">
+      <option value="">-- Select a Formula --</option>
+      <option value="hoekBrown">Hoek-Brown Criterion</option>
+      <option value="strippingRatio">Stripping Ratio</option>
+    </select>
+
+    <!-- Dynamic Formula Solver -->
+    <div id="formulaSolver"></div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Formula Database
+    const formulas = {
+      hoekBrown: {
+        name: "Hoek-Brown Criterion",
+        equation: "sigma_1 = sigma_3 + sqrt(m * sigma_c * sigma_3 + s * sigma_c^2)",
+        variables: ["sigma_1", "sigma_3", "m", "s", "sigma_c"]
+      },
+      strippingRatio: {
+        name: "Stripping Ratio",
+        equation: "SR = Waste / Ore",
+        variables: ["SR", "Waste", "Ore"]
+      }
+    };
+
+    // Update solver UI when formula is selected
+    document.getElementById('formulaSelector').addEventListener('change', (e) => {
+      const formulaKey = e.target.value;
+      if (!formulaKey) return;
+
+      const formula = formulas[formulaKey];
+      let html = `<h3>${formula.name}</h3><p>${formula.equation}</p>`;
+
+      // Add input fields for all variables
+      formula.variables.forEach(varName => {
+        html += `<label>${varName}:</label> <input type="number" id="${varName}" placeholder="Enter if known"><br>`;
+      });
+
+      // Add "Solve For" dropdown
+      html += `<label>Solve for:</label> <select id="solveFor">`;
+      formula.variables.forEach(varName => {
+        html += `<option value="${varName}">${varName}</option>`;
+      });
+      html += `</select><button onclick="solve('${formulaKey}')">Calculate</button>`;
+
+      document.getElementById('formulaSolver').innerHTML = html;
+    });
+
+    // Solve the formula
+    function solve(formulaKey) {
+      const formula = formulas[formulaKey];
+      const solveFor = document.getElementById('solveFor').value;
+      const knownValues = {};
+
+      // Collect known values
+      formula.variables.forEach(varName => {
+        const value = document.getElementById(varName)?.value;
+        if (value && varName !== solveFor) knownValues[varName] = value;
+      });
+
+      // Solve equation
+      const solution = nerdamer.solve(formula.equation, solveFor)
+                             .subs(knownValues)
+                             .evaluate();
+      document.getElementById('result').innerHTML = 
+        `<strong>${solveFor} = ${solution.toString()}</strong>`;
+    }
+  </script>
+</body>
+</html>

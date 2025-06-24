@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Geomechanics & Ground Control</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <!-- MathJax for rendering formulas -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Geomechanics & Ground Control</h1>
+        <p>Rock mass classification, stress analysis, support system design, and stability control techniques for underground and open pit excavations.</p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+
+        <!-- Stress Transformation -->
+        <div class="formula-block" data-name="stress transformation">
+            <section class="content">
+                <h2>Stress Transformation</h2>
+                <p>Enter the stresses and angle to compute transformed stresses and principal plane angle.</p>
+                <!-- Formula Display -->
+                <div>
+                    $$
+                    \begin{aligned}
+                        \sigma_{x'} &= \frac{\sigma_{xx} + \sigma_{yy}}{2} + \frac{\sigma_{xx} - \sigma_{yy}}{2} \cos 2\theta + \tau_{xy} \sin 2\theta \\
+                        \sigma_{y'} &= \frac{\sigma_{xx} + \sigma_{yy}}{2} - \frac{\sigma_{xx} - \sigma_{yy}}{2} \cos 2\theta - \tau_{xy} \sin 2\theta \\
+                        \tau_{x'y'} &= -\frac{\sigma_{xx} - \sigma_{yy}}{2} \sin 2\theta + \tau_{xy} \cos 2\theta
+                    \end{aligned}
+                    $$
+                </div>
+                <form id="stressForm">
+                    <label for="sxx">σ<sub>xx</sub>:</label>
+                    <input type="number" id="sxx" step="any" required><br><br>
+                    <label for="syy">σ<sub>yy</sub>:</label>
+                    <input type="number" id="syy" step="any" required><br><br>
+                    <label for="txy">τ<sub>xy</sub>:</label>
+                    <input type="number" id="txy" step="any" required><br><br>
+                    <label for="theta">θ (degrees):</label>
+                    <input type="number" id="theta" step="any" required><br><br>
+                    <button type="submit">Calculate Stress</button>
+                </form>
+                <div id="stressResult" class="result-box"></div>
+            </section>
+        </div>
+
+        <!-- Kirsch Equations -->
+        <div class="formula-block" data-name="kirsch relationship">
+            <section class="content">
+                <h2>Kirsch Stress Relationships</h2>
+                <p>Calculate radial, tangential, and shear stresses around a circular opening.</p>
+                <!-- Formula Display -->
+                <div>
+                    $$
+                    \begin{aligned}
+                        \sigma_{rr} &= \frac{p_0}{2} \left[ (1+K)\left(1-\frac{a^2}{r^2}\right) - (1-K)\left(1 - 4\frac{a^2}{r^2} + 3\frac{a^4}{r^4}\right)\cos 2\theta \right] \\
+                        \sigma_{\theta\theta} &= \frac{p_0}{2} \left[ (1+K)\left(1+\frac{a^2}{r^2}\right) + (1-K)\left(1 + 3\frac{a^4}{r^4}\right)\cos 2\theta \right] \\
+                        \tau_{r\theta} &= -\frac{p_0}{2} (1-K)\left(1 + 2\frac{a^2}{r^2} - 3\frac{a^4}{r^4}\right)\sin 2\theta
+                    \end{aligned}
+                    $$
+                </div>
+
+                <div class="formula-image">
+                    <img src="images/kirsch_relation.jpg" alt="Kirsch relation. Image showing different parameters" width="300">
+                    <p class="image-caption">Figure: Planar slope failure geometry showing critical angles and dimensions</p>
+                </div>
+
+
+
+                <form id="kirschForm">
+                    <label for="p0">p₀ (Initial Pressure):</label>
+                    <input type="number" id="p0" step="any" required><br><br>
+                    <label for="a">a (Radius of opening):</label>
+                    <input type="number" id="a" step="any" required><br><br>
+                    <label for="r">r (Distance from center):</label>
+                    <input type="number" id="r" step="any" required><br><br>
+                    <label for="k">K (Stress ratio):</label>
+                    <input type="number" id="k" step="any" required><br><br>
+                    <!-- Changed ID to kirschTheta -->
+                    <label for="kirschTheta">θ (Angle in degrees):</label>
+                    <input type="number" id="kirschTheta" step="any" required><br><br>
+                    <button type="submit">Calculate Stresses</button>
+                </form>
+                <div id="kirschResult" class="result-box"></div>
+            </section>
+        </div>
+
+        <!-- Slope Stability - Plane Failure -->
+        <div class="formula-block" data-name="slope stability plane failure">
+            <section class="content">
+                <h2>Slope Stability - Plane Failure</h2>
+                <p>Calculate Factor of Safety (FoS) for planar failure in rock slopes.</p>
+                <!-- Formula Display -->
+                <div>
+                    $$
+                    \begin{aligned}
+                        \text{FoS} &= \frac{\text{Resisting Force}}{\text{Driving Force}} \\
+                        \text{FoS} &= \frac{w \cos\alpha \tan\phi + c \cdot A}{w \sin\alpha} \\
+                        w &= \frac{\gamma h^2}{2} \left( \frac{\cos\alpha - \cos\beta}{\sin\alpha} \right) \\
+                        A &= \frac{h}{\sin\alpha} \ (\text{m}^2)
+                    \end{aligned}
+                    $$
+                </div>
+
+                <div class="formula-image">
+                    <img src="images/slope_failure_diagram.jpg" alt="Slope failure diagram showing α and β angles" width="300">
+                    <p class="image-caption">Figure: Planar slope failure geometry showing critical angles and dimensions</p>
+                </div>
+
+
+                <form id="slopeStabilityForm">
+                    <label for="unitWeight">γ (Unit Weight, kN/m³):</label>
+                    <input type="number" id="unitWeight" step="any" required><br><br>
+                    
+                    <label for="slopeHeight">h (Slope Height, m):</label>
+                    <input type="number" id="slopeHeight" step="any" required><br><br>
+                    
+                    <label for="slopeFaceAngle">β (Slope Face Angle, degrees):</label>
+                    <input type="number" id="slopeFaceAngle" step="any" required><br><br>
+                    
+                    <label for="dipAngle">α (Dip of Failure Plane, degrees):</label>
+                    <input type="number" id="dipAngle" step="any" required><br><br>
+                    
+                    <label for="frictionAngle">φ (Friction Angle, degrees):</label>
+                    <input type="number" id="frictionAngle" step="any" required><br><br>
+                    
+                    <label for="cohesion">c (Cohesion, kN/m²):</label>
+                    <input type="number" id="cohesion" step="any" required><br><br>
+                    
+                    <button type="submit">Calculate Factor of Safety</button>
+                </form>
+                <div id="slopeStabilityResult" class="result-box"></div>
+            </section>
+        </div>
+
+        <!-- Tributary-Area Theory Calculator -->
+        <div class="formula-block" data-name="tributary area theory pillar stress">
+            <section class="content">
+                <h2>Tributary-Area Theory (Pillar Stress)</h2>
+                <p>Calculate pillar stress in room-and-pillar mining based on tributary area loading.</p>
+                
+                <!-- Formula Display -->
+                <div>
+                    $$
+                    \begin{aligned}
+                        \text{Pillar Stress} &= \frac{\gamma H (w_p + w_g)^2}{w_p^2} \\
+                        \text{Pillar Stress} &= \frac{\gamma H}{1 - R} \\
+                        R &= \frac{(w_p + w_g)^2 - w_p^2}{(w_p + w_g)^2}
+                    \end{aligned}
+                    $$
+                </div>
+                
+                <!-- Add image (if available) -->
+                <div class="formula-image">
+                    <img src="images/tributary_area_theory.jpg" alt="Tributary area diagram showing pillar and gallery" width="300">
+                    <p class="image-caption">Figure: Tributary area loading on pillars (wp = pillar width, wg = gallery width)</p>
+                </div>
+                
+                <form id="tributaryAreaForm">
+                    <label for="unitWeight">γ (Unit Weight of Overburden, kN/m³):</label>
+                    <input type="number" id="unitWeight" step="any" required><br><br>
+                    
+                    <label for="depth">H (Depth of Cover, m):</label>
+                    <input type="number" id="depth" step="any" required><br><br>
+                    
+                    <label for="pillarWidth">wp (Width of Pillar, m):</label>
+                    <input type="number" id="pillarWidth" step="any" required><br><br>
+                    
+                    <label for="galleryWidth">wg (Width of Gallery, m):</label>
+                    <input type="number" id="galleryWidth" step="any" required><br><br>
+                    
+                    <button type="submit">Calculate Pillar Stress</button>
+                </form>
+                <div id="tributaryAreaResult" class="result-box"></div>
+            </section>
+        </div>
+
+
+
+        <!-- 1. RQD -->
+<div class="formula-block" data-name="RQD">
+    <section class="content">
+        <h2>RQD</h2>
+        <p>Enter any two values to calculate the third.</p>
+        <div>$$RQD = \left(\frac{\sum \text{core pieces} > 10\,cm}{\text{total core run}}\right) \times 100$$</div>
+        <form class="formulaForm" data-formula="rqd">
+            <label>RQD (%):</label><input type="number" name="rqd"><br><br>
+            <label>Core Length >10 cm:</label><input type="number" name="core"><br><br>
+            <label>Total Core Run:</label><input type="number" name="total"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+<!-- 2. Slope Stability Factor of Safety -->
+<div class="formula-block" data-name="FoS Slope">
+    <section class="content">
+        <h2>Slope Stability Factor of Safety</h2>
+        <p>Enter any two values to calculate the third.</p>
+        <div>$$FoS = \frac{Resisting}{Driving}$$</div>
+        <form class="formulaForm" data-formula="slope_fos">
+            <label>FoS:</label><input type="number" name="fos"><br><br>
+            <label>Resisting Force:</label><input type="number" name="resisting"><br><br>
+            <label>Driving Force:</label><input type="number" name="driving"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+<!-- 3. Rock Mass Rating (RMR) -->
+<div class="formula-block" data-name="RMR">
+    <section class="content">
+        <h2>Rock Mass Rating (RMR)</h2>
+        <p>Enter all components to calculate RMR.</p>
+        <div>$$RMR = RQD + UCS + J.Spacing + Groundwater + J.Condition$$</div>
+        <form class="formulaForm" data-formula="rmr">
+            <label>RMR:</label><input type="number" name="rmr"><br><br>
+            <label>RQD:</label><input type="number" name="rqd"><br><br>
+            <label>UCS Rating:</label><input type="number" name="ucs"><br><br>
+            <label>Joint Spacing:</label><input type="number" name="spacing"><br><br>
+            <label>Groundwater Rating:</label><input type="number" name="water"><br><br>
+            <label>Joint Condition:</label><input type="number" name="condition"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+<!-- 4. Mohr-Coulomb Failure Criterion -->
+<div class="formula-block" data-name="Mohr-Coulomb">
+    <section class="content">
+        <h2>Mohr-Coulomb Failure Criterion</h2>
+        <p>Enter any two values to calculate the third.</p>
+        <div>$$\tau = c + \sigma \cdot \tan(\phi)$$</div>
+        <form class="formulaForm" data-formula="mohr">
+            <label>Shear Stress (τ):</label><input type="number" name="tau"><br><br>
+            <label>Cohesion (c):</label><input type="number" name="c"><br><br>
+            <label>Normal Stress (σ):</label><input type="number" name="sigma"><br><br>
+            <label>Friction Angle (ϕ in degrees):</label><input type="number" name="phi"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+<!-- 5. Uniaxial Compressive Strength -->
+<div class="formula-block" data-name="UCS">
+    <section class="content">
+        <h2>Uniaxial Compressive Strength</h2>
+        <p>Enter any two values to calculate the third.</p>
+        <div>$$\sigma = \frac{F}{A}$$</div>
+        <form class="formulaForm" data-formula="ucs">
+            <label>UCS (σ):</label><input type="number" name="sigma"><br><br>
+            <label>Force (F):</label><input type="number" name="f"><br><br>
+            <label>Area (A):</label><input type="number" name="a"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+<!-- 6. Overburden Pressure -->
+<div class="formula-block" data-name="Overburden">
+    <section class="content">
+        <h2>Overburden Pressure</h2>
+        <p>Enter any two values to calculate the third.</p>
+        <div>$$\sigma = \rho \cdot g \cdot h$$</div>
+        <form class="formulaForm" data-formula="overburden">
+            <label>Pressure (σ):</label><input type="number" name="sigma"><br><br>
+            <label>Density (ρ):</label><input type="number" name="rho"><br><br>
+            <label>Height (h):</label><input type="number" name="h"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+<!-- 7. Factor of Safety -->
+<div class="formula-block" data-name="FoS">
+    <section class="content">
+        <h2>Factor of Safety</h2>
+        <p>Enter any two values to calculate the third.</p>
+        <div>$$FoS = \frac{Strength}{Stress}$$</div>
+        <form class="formulaForm" data-formula="fos">
+            <label>FoS:</label><input type="number" name="fos"><br><br>
+            <label>Strength:</label><input type="number" name="strength"><br><br>
+            <label>Stress:</label><input type="number" name="stress"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+<!-- 8. Open Pit Slope Stability (Simplified FoS) -->
+<div class="formula-block" data-name="Open Pit FoS">
+    <section class="content">
+        <h2>Open Pit Slope Stability</h2>
+        <p>Enter any three values to calculate the fourth.</p>
+        <div>$$FoS = \frac{c}{\gamma H \tan(\theta)}$$</div>
+        <form class="formulaForm" data-formula="openpit">
+            <label>FoS:</label><input type="number" name="fos"><br><br>
+            <label>Cohesion (c):</label><input type="number" name="c"><br><br>
+            <label>Unit Weight (γ):</label><input type="number" name="gamma"><br><br>
+            <label>Height (H):</label><input type="number" name="h"><br><br>
+            <label>Slope Angle (θ in degrees):</label><input type="number" name="theta"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+<!-- Remaining 6 formulas (9–14) will follow next -->
+<!-- 9. Ground Control Factor -->
+<div class="formula-block" data-name="Ground Control Factor">
+    <section class="content">
+        <h2>Ground Control Factor</h2>
+        <p>Enter all values to calculate Ground Control Factor.</p>
+        <div>$$Ground Control Factor = \frac{RMR}{Depth}$$</div>
+        <form class="formulaForm" data-formula="ground_control">
+            <label>Ground Control Factor:</label><input type="number" name="gc_factor"><br><br>
+            <label>Rock Mass Rating (RMR):</label><input type="number" name="rmr"><br><br>
+            <label>Depth:</label><input type="number" name="depth"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+
+<!-- 10. Stress Transformation Formula -->
+<div class="formula-block" data-name="Stress Transformation">
+    <section class="content">
+        <h2>Stress Transformation Formula</h2>
+        <p>Enter all values to calculate transformed stress.</p>
+        <div>$$\sigma_x' = \sigma_x \cos^2(\theta) + \sigma_y \sin^2(\theta) + 2 \tau_{xy} \cos(\theta) \sin(\theta)$$</div>
+        <form class="formulaForm" data-formula="stress_transformation">
+            <label>Transformed Stress (σx'):</label><input type="number" name="sigma_x_prime"><br><br>
+            <label>Stress (σx):</label><input type="number" name="sigma_x"><br><br>
+            <label>Stress (σy):</label><input type="number" name="sigma_y"><br><br>
+            <label>Shear Stress (τxy):</label><input type="number" name="tau_xy"><br><br>
+            <label>Angle (θ in degrees):</label><input type="number" name="theta"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+
+<!-- 11. Angle of Repose -->
+<div class="formula-block" data-name="Angle of Repose">
+    <section class="content">
+        <h2>Angle of Repose</h2>
+        <p>Enter all values to calculate the angle of repose.</p>
+        <div>$$\phi = \arctan\left(\frac{H}{L}\right)$$</div>
+        <form class="formulaForm" data-formula="angle_of_repose">
+            <label>Angle of Repose (ϕ in degrees):</label><input type="number" name="phi"><br><br>
+            <label>Height (H):</label><input type="number" name="height"><br><br>
+            <label>Length (L):</label><input type="number" name="length"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+
+<!-- 12. Hydraulic Pressure -->
+<div class="formula-block" data-name="Hydraulic Pressure">
+    <section class="content">
+        <h2>Hydraulic Pressure</h2>
+        <p>Enter all values to calculate the hydraulic pressure.</p>
+        <div>$$P = \rho \cdot g \cdot h$$</div>
+        <form class="formulaForm" data-formula="hydraulic_pressure">
+            <label>Pressure (P):</label><input type="number" name="pressure"><br><br>
+            <label>Density (ρ):</label><input type="number" name="rho"><br><br>
+            <label>Height (h):</label><input type="number" name="height"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+
+<!-- 13. Permeability -->
+<div class="formula-block" data-name="Permeability">
+    <section class="content">
+        <h2>Permeability</h2>
+        <p>Enter all values to calculate permeability.</p>
+        <div>$$k = \frac{Q \cdot L}{A \cdot \Delta P}$$</div>
+        <form class="formulaForm" data-formula="permeability">
+            <label>Permeability (k):</label><input type="number" name="k"><br><br>
+            <label>Flow Rate (Q):</label><input type="number" name="q"><br><br>
+            <label>Length (L):</label><input type="number" name="l"><br><br>
+            <label>Area (A):</label><input type="number" name="a"><br><br>
+            <label>Pressure Difference (ΔP):</label><input type="number" name="delta_p"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+
+<!-- 14. Rock Reinforcement Density -->
+<div class="formula-block" data-name="Rock Reinforcement Density">
+    <section class="content">
+        <h2>Rock Reinforcement Density</h2>
+        <p>Enter all values to calculate rock reinforcement density.</p>
+        <div>$$Density = \frac{Mass}{Volume}$$</div>
+        <form class="formulaForm" data-formula="reinforcement_density">
+            <label>Density:</label><input type="number" name="density"><br><br>
+            <label>Mass:</label><input type="number" name="mass"><br><br>
+            <label>Volume:</label><input type="number" name="volume"><br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result-box"></div>
+    </section>
+</div>
+
+
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | Geomechanics Section</p>
+    </footer>
+
+    <script>
+
+        // Stress transformation calculator
+        document.getElementById("stressForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const sxx = parseFloat(document.getElementById("sxx").value);
+            const syy = parseFloat(document.getElementById("syy").value);
+            const txy = parseFloat(document.getElementById("txy").value);
+            const thetaDeg = parseFloat(document.getElementById("theta").value);
+            const thetaRad = thetaDeg * Math.PI / 180;
+            const cos2 = Math.cos(2 * thetaRad);
+            const sin2 = Math.sin(2 * thetaRad);
+
+            const avg = (sxx + syy) / 2;
+            const diff = (sxx - syy) / 2;
+
+            const s_xp = avg + diff * cos2 + txy * sin2;
+            const s_yp = avg - diff * cos2 - txy * sin2;
+            const t_xpyp = -diff * sin2 + txy * cos2;
+
+            const theta_p = 0.5 * Math.atan2(2 * txy, sxx - syy) * 180 / Math.PI;
+
+            const result = `
+                σ<sub>x'</sub> = ${s_xp.toFixed(2)}<br>
+                σ<sub>y'</sub> = ${s_yp.toFixed(2)}<br>
+                τ<sub>x'y'</sub> = ${t_xpyp.toFixed(2)}<br>
+                Principal angle θ<sub>p</sub> = ${theta_p.toFixed(2)}°
+            `;
+
+            document.getElementById("stressResult").innerHTML = result;
+        });
+
+        // Kirsch equations calculator
+        document.getElementById("kirschForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Get inputs with corrected ID
+            const p0 = parseFloat(document.getElementById("p0").value);
+            const a = parseFloat(document.getElementById("a").value);
+            const r = parseFloat(document.getElementById("r").value);
+            const K = parseFloat(document.getElementById("k").value);
+            const thetaDeg = parseFloat(document.getElementById("kirschTheta").value); // Fixed ID
+
+            // Input validation
+            if (a <= 0 || r <= 0) {
+                alert("Radius (a) and distance (r) must be positive values");
+                return;
+            }
+            if (r < a) {
+                alert("Distance from center (r) must be ≥ opening radius (a)");
+                return;
+            }
+
+            const theta = thetaDeg * Math.PI / 180;
+            const a2 = a * a;
+            const r2 = r * r;
+            const r4 = r2 * r2;
+            const a4 = a2 * a2;
+
+            // Corrected equations with proper signs
+            const sigma_rr = (p0 / 2) * (
+                (1 + K) * (1 - a2 / r2) - 
+                (1 - K) * (1 - (4 * a2) / r2 + (3 * a4) / r4) * Math.cos(2 * theta)
+            );
+
+            const sigma_tt = (p0 / 2) * (
+                (1 + K) * (1 + a2 / r2) + 
+                (1 - K) * (1 + (3 * a4) / r4) * Math.cos(2 * theta)
+            );
+
+            const tau_rt = -(p0 / 2) * ( // Corrected negative sign
+                (1 - K) * (1 + (2 * a2) / r2 - (3 * a4) / r4) * Math.sin(2 * theta)
+            );
+
+            // Display results
+            const result = `
+                <strong>Results:</strong><br>
+                σ<sub>rr</sub> (Radial Stress) = ${sigma_rr.toFixed(3)} MPa<br>
+                σ<sub>θθ</sub> (Tangential Stress) = ${sigma_tt.toFixed(3)} MPa<br>
+                τ<sub>rθ</sub> (Shear Stress) = ${tau_rt.toFixed(3)} MPa
+            `;
+            document.getElementById("kirschResult").innerHTML = result;
+        });
+
+        // Slope Stability - Plane Failure Calculator
+        document.getElementById("slopeStabilityForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            
+            // Get inputs
+            const gamma = parseFloat(document.getElementById("unitWeight").value);
+            const h = parseFloat(document.getElementById("slopeHeight").value);
+            const betaDeg = parseFloat(document.getElementById("slopeFaceAngle").value);
+            const alphaDeg = parseFloat(document.getElementById("dipAngle").value);
+            const phiDeg = parseFloat(document.getElementById("frictionAngle").value);
+            const c = parseFloat(document.getElementById("cohesion").value);
+            
+            // Input validation
+            if (alphaDeg >= betaDeg) {
+                alert("Dip angle (α) must be less than slope face angle (β)");
+                return;
+            }
+            if (alphaDeg <= 0 || betaDeg <= 0) {
+                alert("Angles must be positive values");
+                return;
+            }
+            
+            // Convert to radians
+            const alpha = alphaDeg * Math.PI / 180;
+            const beta = betaDeg * Math.PI / 180;
+            const phi = phiDeg * Math.PI / 180;
+            
+            // Calculate weight of sliding wedge
+            const w = (gamma * h * h / 2) * ((Math.cos(alpha) - Math.cos(beta)) / Math.sin(alpha));
+            
+            // Calculate area of failure plane
+            const A = h / Math.sin(alpha);
+            
+            // Calculate Factor of Safety
+            const resistingForce = w * Math.cos(alpha) * Math.tan(phi) + c * A;
+            const drivingForce = w * Math.sin(alpha);
+            const FoS = resistingForce / drivingForce;
+            
+            // Display results
+            const result = `
+                <strong>Results:</strong><br>
+                Weight of wedge (w) = ${w.toFixed(2)} kN/m<br>
+                Area of failure plane (A) = ${A.toFixed(2)} m²<br>
+                Factor of Safety (FoS) = ${FoS.toFixed(3)}<br><br>
+                <strong>Interpretation:</strong><br>
+                ${FoS >= 1.5 ? "Slope is stable (FoS ≥ 1.5)" : 
+                FoS >= 1.0 ? "Marginally stable (1.0 ≤ FoS < 1.5)" : 
+                "Unstable slope (FoS < 1.0)"}
+            `;
+            
+            document.getElementById("slopeStabilityResult").innerHTML = result;
+        });
+
+
+        // Tributary-Area Theory Calculator (Simplified)
+        document.getElementById("tributaryAreaForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            // Get inputs
+            const gamma = Number(document.getElementById("unitWeight").value);
+            const H = Number(document.getElementById("depth").value);
+            const wp = Number(document.getElementById("pillarWidth").value);
+            const wg = Number(document.getElementById("galleryWidth").value);
+
+            // Validate inputs
+            // if (!gamma || !H || !wp || !wg) {
+            //     alert("All fields must contain positive numbers");
+            //     return;
+            // }
+
+            // Calculate extraction ratio
+            const sum = wp + wg;
+            const R = (sum**2 - wp**2) / sum**2;
+            
+            // Calculate pillar stress
+            const pillarStress = (gamma * H) / (1 - R);
+
+            // Display results
+            document.getElementById("tributaryAreaResult").innerHTML = `
+                <strong>Results:</strong><br>
+                Extraction Ratio (R): ${(R * 100).toFixed(2)}%<br>
+                Pillar Stress: ${pillarStress.toFixed(2)} kPa (${(pillarStress/1000).toFixed(4)} MPa)
+            `;
+        });
+
+        // RQD calculation
+        document.querySelector("[data-formula='rqd']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target; // the current form
+    const rqd = parseFloat(form.querySelector("[name='rqd']").value);
+    const coreLength = parseFloat(form.querySelector("[name='core']").value);
+    const totalCore = parseFloat(form.querySelector("[name='total']").value);
+
+    let result = "";
+
+    if (!isNaN(coreLength) && !isNaN(totalCore)) {
+        const calculatedRQD = (coreLength / totalCore) * 100;
+        result = `RQD = ${calculatedRQD.toFixed(2)}%`;
+    } else if (!isNaN(rqd) && !isNaN(totalCore)) {
+        const calculatedCore = (rqd / 100) * totalCore;
+        result = `Core Length = ${calculatedCore.toFixed(2)} cm`;
+    } else if (!isNaN(rqd) && !isNaN(coreLength)) {
+        const calculatedTotal = coreLength / (rqd / 100);
+        result = `Total Core Run = ${calculatedTotal.toFixed(2)} cm`;
+    } else {
+        result = "Please enter any two values to calculate the third.";
+    }
+
+    // Only update the result box in the same formula block
+    form.closest(".formula-block").querySelector(".result-box").innerText = result;
+});
+
+
+// Slope Stability Factor of Safety calculation
+document.querySelector("[data-formula='slope_fos']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target; // ✅ Now 'form' is defined as the event target
+    const fos = parseFloat(form.querySelector("[name='fos']").value);
+    const resistingForce = parseFloat(form.querySelector("[name='resisting']").value);
+    const drivingForce = parseFloat(form.querySelector("[name='driving']").value);
+
+    let result = "";
+
+    if (!isNaN(resistingForce) && !isNaN(drivingForce)) {
+        const calculatedFos = resistingForce / drivingForce;
+        result = `FoS = ${calculatedFos.toFixed(2)}`;
+    } else if (!isNaN(fos) && !isNaN(drivingForce)) {
+        const calculatedResisting = fos * drivingForce;
+        result = `Resisting Force = ${calculatedResisting.toFixed(2)}`;
+    } else if (!isNaN(fos) && !isNaN(resistingForce)) {
+        const calculatedDriving = resistingForce / fos;
+        result = `Driving Force = ${calculatedDriving.toFixed(2)}`;
+    } else {
+        result = "Please enter any two values to calculate the third.";
+    }
+
+    form.closest(".formula-block").querySelector(".result-box").innerText = result;
+});
+
+
+// Rock Mass Rating (RMR) calculation
+document.querySelector("[data-formula='rmr']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+
+    // ✅ Scope inputs to this form only
+    const rmr = parseFloat(form.querySelector("[name='rmr']").value);
+    const rqd = parseFloat(form.querySelector("[name='rqd']").value);
+    const ucs = parseFloat(form.querySelector("[name='ucs']").value);
+    const spacing = parseFloat(form.querySelector("[name='spacing']").value);
+    const water = parseFloat(form.querySelector("[name='water']").value);
+    const condition = parseFloat(form.querySelector("[name='condition']").value);
+
+    let result = "";
+    if (!isNaN(rqd) && !isNaN(ucs) && !isNaN(spacing) && !isNaN(water) && !isNaN(condition)) {
+        const calculatedRMR = rqd + ucs + spacing + water + condition;
+        result = `RMR = ${calculatedRMR.toFixed(2)}`;
+    } else {
+        result = "Please enter all values to calculate RMR.";
+    }
+
+    form.closest(".formula-block").querySelector(".result-box").innerText = result;
+});
+
+
+// Mohr-Coulomb Failure Criterion calculation
+document.querySelector("[data-formula='mohr']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+
+    // ✅ Scope all queries to the current form
+    const tau = parseFloat(form.querySelector("[name='tau']").value);
+    const c = parseFloat(form.querySelector("[name='c']").value);
+    const sigma = parseFloat(form.querySelector("[name='sigma']").value);
+    const phi = parseFloat(form.querySelector("[name='phi']").value);
+
+    let result = "";
+    if (!isNaN(c) && !isNaN(sigma) && !isNaN(phi)) {
+        const tauCalc = c + sigma * Math.tan(phi * Math.PI / 180);
+        result = `τ = ${tauCalc.toFixed(2)}`;
+    } else {
+        result = "Please enter Cohesion, Normal Stress, and Friction Angle.";
+    }
+
+    form.closest(".formula-block").querySelector(".result-box").innerText = result;
+});
+
+
+// Uniaxial Compressive Strength calculation
+document.querySelector("[data-formula='ucs']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target; // fix 1: define form
+    const sigma = parseFloat(form.querySelector("[name='sigma']").value);
+    const force = parseFloat(form.querySelector("[name='f']").value);
+    const area = parseFloat(form.querySelector("[name='a']").value);
+
+    let result = "";
+
+    if (isNaN(sigma)) {
+        if (!isNaN(force) && !isNaN(area) && area !== 0) {
+            result = `σ = ${force / area}`;
+        } else {
+            result = "Enter Force and Area to calculate σ.";
+        }
+    } else if (isNaN(force)) {
+        if (!isNaN(sigma) && !isNaN(area)) {
+            result = `F = ${sigma * area}`;
+        } else {
+            result = "Enter σ and Area to calculate Force.";
+        }
+    } else if (isNaN(area)) {
+        if (!isNaN(sigma) && !isNaN(force) && sigma !== 0) {
+            result = `A = ${force / sigma}`;
+        } else {
+            result = "Enter σ and Force to calculate Area.";
+        }
+    } else {
+        result = "All values are filled. Nothing to calculate.";
+    }
+
+    form.closest(".formula-block").querySelector(".result-box").innerText = result;
+});
+
+
+// Overburden Pressure calculation
+document.querySelector("[data-formula='overburden']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const sigma = parseFloat(form.querySelector("[name='sigma']").value);
+    const rho = parseFloat(form.querySelector("[name='rho']").value);
+    const h = parseFloat(form.querySelector("[name='h']").value);
+    
+    let result = "";
+    if (!isNaN(sigma)) {
+        if (!isNaN(rho) && !isNaN(h)) {
+            result = `σ = ${rho * 9.81 * h}`;
+        } else {
+            result = "Enter Density and Height to calculate.";
+        }
+    } else if (!isNaN(rho) && !isNaN(h)) {
+        result = `σ = ${rho * 9.81 * h}`;
+    } else {
+        result = "Please enter values to calculate σ.";
+    }
+    
+    form.closest(".formula-block").querySelector(".result-box").innerText = result;
+});
+
+// Factor of Safety calculation
+document.querySelector("[data-formula='fos']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const fos = parseFloat(form.querySelector("[name='fos']").value);
+    const strength = parseFloat(form.querySelector("[name='strength']").value);
+    const stress = parseFloat(form.querySelector("[name='stress']").value);
+
+    let result = "";
+    if (!isNaN(fos)) {
+        if (!isNaN(strength) && !isNaN(stress)) {
+            result = `FoS = ${strength / stress}`;
+        } else {
+            result = "Enter Strength and Stress to calculate.";
+        }
+    } else if (!isNaN(strength) && !isNaN(stress)) {
+        result = `FoS = ${strength / stress}`;
+    } else {
+        result = "Please enter values to calculate FoS.";
+    }
+
+    form.closest(".formula-block").querySelector(".result-box").innerText = result;
+});
+
+// Open Pit Slope Stability calculation
+document.querySelector("[data-formula='openpit']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const fos = parseFloat(form.querySelector("[name='fos']").value);
+    const c = parseFloat(form.querySelector("[name='c']").value);
+    const gamma = parseFloat(form.querySelector("[name='gamma']").value);
+    const h = parseFloat(form.querySelector("[name='h']").value);
+    const theta = parseFloat(form.querySelector("[name='theta']").value) * Math.PI / 180; // Convert to radians
+
+    let result = "";
+    if (!isNaN(fos)) {
+        if (!isNaN(c) && !isNaN(gamma) && !isNaN(h) && !isNaN(theta)) {
+            result = `FoS = ${(c / (gamma * h * Math.tan(theta))).toFixed(2)}`;
+        } else {
+            result = "Enter all values to calculate FoS.";
+        }
+    } else if (!isNaN(c) && !isNaN(gamma) && !isNaN(h) && !isNaN(theta)) {
+        result = `FoS = ${(c / (gamma * h * Math.tan(theta))).toFixed(2)}`;
+    } else {
+        result = "Please enter values to calculate FoS.";
+    }
+
+    form.closest(".formula-block").querySelector(".result-box").innerText = result;
+});
+
+// Ground Control Factor calculation
+document.querySelector("[data-formula='ground_control']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const gcFactor = parseFloat(form.querySelector("[name='gc_factor']").value);
+    const rmr = parseFloat(form.querySelector("[name='rmr']").value);
+    const depth = parseFloat(form.querySelector("[name='depth']").value);
+
+    let result = "";
+    if (!isNaN(gcFactor)) {
+        if (!isNaN(rmr) && !isNaN(depth)) {
+            result = `Ground Control Factor = ${(rmr / depth).toFixed(2)}`;
+        } else {
+            result = "Enter Rock Mass Rating and Depth to calculate.";
+        }
+    } else if (!isNaN(rmr) && !isNaN(depth)) {
+        result = `Ground Control Factor = ${(rmr / depth).toFixed(2)}`;
+    } else {
+        result = "Please enter values to calculate Ground Control Factor.";
+    }
+
+    form.closest(".formula-block").querySelector(".result-box").innerText = result;
+});
+
+// Stress Transformation Formula calculation
+document.querySelector("[data-formula='stress_transformation']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const sigmaX = parseFloat(form.querySelector("[name='sigma_x']").value);
+    const sigmaY = parseFloat(form.querySelector("[name='sigma_y']").value);
+    const tauXY = parseFloat(form.querySelector("[name='tau_xy']").value);
+    const theta = parseFloat(form.querySelector("[name='theta']").value) * Math.PI / 180; // Convert to radians
+
+    let result = "";
+    if (!isNaN(sigmaX) && !isNaN(sigmaY) && !isNaN(tauXY) && !isNaN(theta)) {
+        const sigmaXPrime = sigmaX * Math.pow(Math.cos(theta), 2) +
+                            sigmaY * Math.pow(Math.sin(theta), 2) +
+                            2 * tauXY * Math.sin(theta) * Math.cos(theta);
+        result = `Transformed Stress (σx′) = ${sigmaXPrime.toFixed(2)}`;
+    } else {
+        result = "Please enter all values to calculate transformed stress.";
+    }
+
+    form.closest(".formula-block").querySelector(".result-box").innerText = result;
+});
+
+// Angle of Repose calculation
+document.querySelector("[data-formula='angle_of_repose']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const height = parseFloat(document.querySelector("[name='height']").value);
+    const length = parseFloat(document.querySelector("[name='length']").value);
+
+    let result = "";
+    if (!isNaN(height) && !isNaN(length)) {
+        result = `Angle of Repose (ϕ) = ${Math.atan(height / length) * (180 / Math.PI)}°`;
+    } else {
+        result = "Please enter Height and Length to calculate the angle.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Hydraulic Pressure calculation
+document.querySelector("[data-formula='hydraulic_pressure']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const rho = parseFloat(document.querySelector("[name='rho']").value);
+    const height = parseFloat(document.querySelector("[name='height']").value);
+
+    let result = "";
+    if (!isNaN(rho) && !isNaN(height)) {
+        result = `Hydraulic Pressure = ${rho * 9.81 * height}`;
+    } else {
+        result = "Please enter Density and Height to calculate pressure.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Permeability calculation
+document.querySelector("[data-formula='permeability']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const q = parseFloat(document.querySelector("[name='q']").value);
+    const l = parseFloat(document.querySelector("[name='l']").value);
+    const a = parseFloat(document.querySelector("[name='a']").value);
+    const deltaP = parseFloat(document.querySelector("[name='delta_p']").value);
+
+    let result = "";
+    if (!isNaN(q) && !isNaN(l) && !isNaN(a) && !isNaN(deltaP)) {
+        result = `Permeability (k) = ${(q * l) / (a * deltaP)}`;
+    } else {
+        result = "Please enter all values to calculate permeability.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Rock Reinforcement Density calculation
+document.querySelector("[data-formula='reinforcement_density']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const mass = parseFloat(document.querySelector("[name='mass']").value);
+    const volume = parseFloat(document.querySelector("[name='volume']").value);
+
+    let result = "";
+    if (!isNaN(mass) && !isNaN(volume)) {
+        result = `Density = ${mass / volume}`;
+    } else {
+        result = "Please enter Mass and Volume to calculate density.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+// RQD calculation
+document.querySelector("[data-formula='rqd']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const rqd = parseFloat(document.querySelector("[name='rqd']").value);
+    const coreLength = parseFloat(document.querySelector("[name='core']").value);
+    const totalCore = parseFloat(document.querySelector("[name='total']").value);
+
+    let result = "";
+    if (!isNaN(rqd)) {
+        if (!isNaN(coreLength) && !isNaN(totalCore)) {
+            result = `RQD = ${(coreLength / totalCore) * 100}`;
+        } else {
+            result = "Enter Core Length and Total Core Run to calculate.";
+        }
+    } else if (!isNaN(coreLength) && !isNaN(totalCore)) {
+        result = `RQD = ${(coreLength / totalCore) * 100}`;
+    } else {
+        result = "Please enter values to calculate RQD.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Slope Stability Factor of Safety calculation
+document.querySelector("[data-formula='slope_fos']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const fos = parseFloat(document.querySelector("[name='fos']").value);
+    const resistingForce = parseFloat(document.querySelector("[name='resisting']").value);
+    const drivingForce = parseFloat(document.querySelector("[name='driving']").value);
+
+    let result = "";
+    if (!isNaN(fos)) {
+        if (!isNaN(resistingForce) && !isNaN(drivingForce)) {
+            result = `FoS = ${resistingForce / drivingForce}`;
+        } else {
+            result = "Enter Resisting and Driving Forces to calculate.";
+        }
+    } else if (!isNaN(resistingForce) && !isNaN(drivingForce)) {
+        result = `FoS = ${resistingForce / drivingForce}`;
+    } else {
+        result = "Please enter values to calculate FoS.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Rock Mass Rating (RMR) calculation
+document.querySelector("[data-formula='rmr']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const rmr = parseFloat(document.querySelector("[name='rmr']").value);
+    const rqd = parseFloat(document.querySelector("[name='rqd']").value);
+    const ucs = parseFloat(document.querySelector("[name='ucs']").value);
+    const spacing = parseFloat(document.querySelector("[name='spacing']").value);
+    const water = parseFloat(document.querySelector("[name='water']").value);
+    const condition = parseFloat(document.querySelector("[name='condition']").value);
+
+    let result = "";
+    if (!isNaN(rmr)) {
+        result = "All values entered. Nothing to calculate.";
+    } else if (!isNaN(rqd) && !isNaN(ucs) && !isNaN(spacing) && !isNaN(water) && !isNaN(condition)) {
+        result = `RMR = ${rqd + ucs + spacing + water + condition}`;
+    } else {
+        result = "Please enter all values to calculate RMR.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Mohr-Coulomb Failure Criterion calculation
+document.querySelector("[data-formula='mohr']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const tau = parseFloat(document.querySelector("[name='tau']").value);
+    const c = parseFloat(document.querySelector("[name='c']").value);
+    const sigma = parseFloat(document.querySelector("[name='sigma']").value);
+    const phi = parseFloat(document.querySelector("[name='phi']").value);
+
+    let result = "";
+    if (!isNaN(tau)) {
+        if (!isNaN(c) && !isNaN(sigma) && !isNaN(phi)) {
+            result = `τ = ${c + sigma * Math.tan(phi * Math.PI / 180)}`;
+        } else {
+            result = "Enter Cohesion, Normal Stress, and Friction Angle to calculate.";
+        }
+    } else if (!isNaN(c) && !isNaN(sigma) && !isNaN(phi)) {
+        result = `τ = ${c + sigma * Math.tan(phi * Math.PI / 180)}`;
+    } else {
+        result = "Please enter values to calculate τ.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Uniaxial Compressive Strength calculation
+document.querySelector("[data-formula='ucs']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const sigma = parseFloat(document.querySelector("[name='sigma']").value);
+    const force = parseFloat(document.querySelector("[name='f']").value);
+    const area = parseFloat(document.querySelector("[name='a']").value);
+
+    let result = "";
+    if (!isNaN(sigma)) {
+        if (!isNaN(force) && !isNaN(area)) {
+            result = `σ = ${force / area}`;
+        } else {
+            result = "Enter Force and Area to calculate.";
+        }
+    } else if (!isNaN(force) && !isNaN(area)) {
+        result = `σ = ${force / area}`;
+    } else {
+        result = "Please enter values to calculate σ.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Overburden Pressure calculation
+document.querySelector("[data-formula='overburden']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const sigma = parseFloat(document.querySelector("[name='sigma']").value);
+    const rho = parseFloat(document.querySelector("[name='rho']").value);
+    const h = parseFloat(document.querySelector("[name='h']").value);
+
+    let result = "";
+    if (!isNaN(sigma)) {
+        if (!isNaN(rho) && !isNaN(h)) {
+            result = `σ = ${rho * 9.81 * h}`;
+        } else {
+            result = "Enter Density and Height to calculate.";
+        }
+    } else if (!isNaN(rho) && !isNaN(h)) {
+        result = `σ = ${rho * 9.81 * h}`;
+    } else {
+        result = "Please enter values to calculate σ.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Factor of Safety calculation
+document.querySelector("[data-formula='fos']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const strength = parseFloat(form.querySelector("[name='strength']").value);
+    const stress = parseFloat(form.querySelector("[name='stress']").value);
+    const resultBox = form.querySelector(".result-box");
+
+    let result = "";
+    if (!isNaN(strength) && !isNaN(stress) && stress !== 0) {
+        const fos = strength / stress;
+        result = `Factor of Safety (FoS) = ${fos.toFixed(2)}`;
+    } else {
+        result = "Please enter valid Strength and Stress values (Stress ≠ 0).";
+    }
+
+    resultBox.innerText = result;
+});
+
+// Open Pit Slope Stability calculation
+document.querySelector("[data-formula='openpit']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const c = parseFloat(form.querySelector("[name='c']").value);
+    const gamma = parseFloat(form.querySelector("[name='gamma']").value);
+    const h = parseFloat(form.querySelector("[name='h']").value);
+    const theta = parseFloat(form.querySelector("[name='theta']").value) * Math.PI / 180;
+    const resultBox = form.querySelector(".result-box");
+
+    let result = "";
+    if (!isNaN(c) && !isNaN(gamma) && !isNaN(h) && !isNaN(theta) && Math.tan(theta) !== 0) {
+        const fos = c / (gamma * h * Math.tan(theta));
+        result = `Factor of Safety (FoS) = ${fos.toFixed(2)}`;
+    } else {
+        result = "Please enter valid inputs. Slope angle must not be 90°.";
+    }
+
+    resultBox.innerText = result;
+});
+
+
+// Ground Control Factor calculation
+document.querySelector("[data-formula='ground_control']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const gcFactor = parseFloat(document.querySelector("[name='gc_factor']").value);
+    const rmr = parseFloat(document.querySelector("[name='rmr']").value);
+    const depth = parseFloat(document.querySelector("[name='depth']").value);
+
+    let result = "";
+    if (!isNaN(gcFactor)) {
+        if (!isNaN(rmr) && !isNaN(depth)) {
+            result = `Ground Control Factor = ${rmr / depth}`;
+        } else {
+            result = "Enter Rock Mass Rating and Depth to calculate.";
+        }
+    } else if (!isNaN(rmr) && !isNaN(depth)) {
+        result = `Ground Control Factor = ${rmr / depth}`;
+    } else {
+        result = "Please enter values to calculate Ground Control Factor.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Stress Transformation Formula calculation
+document.querySelector("[data-formula='stress_transformation']").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const sigmaX = parseFloat(document.querySelector("[name='sigma_x']").value);
+    const sigmaY = parseFloat(document.querySelector("[name='sigma_y']").value);
+    const tauXY = parseFloat(document.querySelector("[name='tau_xy']").value);
+    const theta = parseFloat(document.querySelector("[name='theta']").value) * Math.PI / 180; // Convert to radians
+
+    let result = "";
+    if (!isNaN(sigmaX) && !isNaN(sigmaY) && !isNaN(tauXY) && !isNaN(theta)) {
+        result = `Transformed Stress (σx') = ${sigmaX * Math.pow(Math.cos(theta), 2) + sigmaY * Math.pow(Math.sin(theta), 2) + 2 * tauXY * Math.cos(theta) * Math.sin(theta)}`;
+    } else {
+        result = "Please enter all values to calculate transformed stress.";
+    }
+    document.querySelector(".result-box").innerText = result;
+});
+
+// Angle of Repose calculation
+document.querySelector("[data-formula='angle_of_repose']").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const height = parseFloat(form.querySelector("[name='height']").value);
+    const length = parseFloat(form.querySelector("[name='length']").value);
+    const resultBox = form.closest(".formula-block").querySelector(".result-box");
+
+    let result = "";
+    if (!isNaN(height) && !isNaN(length) && length !== 0) {
+        const angle = Math.atan(height / length) * (180 / Math.PI);
+        result = `Angle of Repose (ϕ) = ${angle.toFixed(2)}°`;
+    } else {
+        result = "Please enter valid Height and Length.";
+    }
+
+    resultBox.innerText = result;
+});
+
+// Hydraulic Pressure calculation
+document.querySelector("[data-formula='hydraulic_pressure']").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const form = e.target; // Target the form that was submitted
+    const rho = parseFloat(form.querySelector("[name='rho']").value);
+    const height = parseFloat(form.querySelector("[name='height']").value);
+    const resultBox = form.closest(".formula-block").querySelector(".result-box"); // Find the result box specific to this form
+
+    let result = "";
+    if (!isNaN(rho) && !isNaN(height)) {
+        result = `Hydraulic Pressure = ${rho * 9.81 * height}`;
+    } else {
+        result = "Please enter Density and Height to calculate pressure.";
+    }
+
+    resultBox.innerText = result; // Output the result in the correct result box
+});
+
+
+// Permeability calculation
+document.querySelector("[data-formula='permeability']").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const form = e.target; // Target the form that was submitted
+    const q = parseFloat(form.querySelector("[name='q']").value);
+    const l = parseFloat(form.querySelector("[name='l']").value);
+    const a = parseFloat(form.querySelector("[name='a']").value);
+    const deltaP = parseFloat(form.querySelector("[name='delta_p']").value);
+    const resultBox = form.closest(".formula-block").querySelector(".result-box"); // Find the result box specific to this form
+
+    let result = "";
+    if (!isNaN(q) && !isNaN(l) && !isNaN(a) && !isNaN(deltaP)) {
+        result = `Permeability (k) = ${(q * l) / (a * deltaP)}`;
+    } else {
+        result = "Please enter all values to calculate permeability.";
+    }
+
+    resultBox.innerText = result; // Output the result in the correct result box
+});
+
+
+// Rock Reinforcement Density calculation
+document.querySelector("[data-formula='reinforcement_density']").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const form = e.target; // Get the form that was submitted
+    const mass = parseFloat(form.querySelector("[name='mass']").value);
+    const volume = parseFloat(form.querySelector("[name='volume']").value);
+    const resultBox = form.closest(".formula-block").querySelector(".result-box"); // Get the result box specific to this form
+
+    let result = "";
+    if (!isNaN(mass) && !isNaN(volume)) {
+        result = `Density = ${mass / volume}`;
+    } else {
+        result = "Please enter Mass and Volume to calculate density.";
+    }
+
+    resultBox.innerText = result; // Output the result in the correct result box
+});
+
+
+
+
+
+
+        // Formula search
+        document.getElementById("searchBox").addEventListener("input", function () {
+            const query = this.value.toLowerCase();
+            const formulas = document.querySelectorAll(".formula-block");
+            formulas.forEach(block => {
+                const name = block.getAttribute("data-name").toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

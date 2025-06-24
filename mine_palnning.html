@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mine Planning & Design</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .input-group { margin: 1rem 0; }
+        .input-group label { display: block; margin-bottom: 0.5rem; }
+        .matrix-input { display: grid; gap: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mine Planning & Design</h1>
+        <p>Mine layout development, production scheduling, reserve estimation, and infrastructure planning for optimal resource extraction.</p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+
+        <!-- Block Value Calculation -->
+<div class="formula-block" data-name="block-value">
+    <section class="content">
+        <h2>Block Value Calculation</h2>
+        <div>\[ \text{BVC} = (G \times R \times P) - (C_m + C_p) \]</div>
+        <form id="bvcForm">
+            <label>Ore Grade (G): <input type="number" id="grade"></label>
+            <label>Recovery (%): <input type="number" id="recovery"></label>
+            <label>Commodity Price ($): <input type="number" id="price"></label>
+            <label>Mining Cost ($): <input type="number" id="miningCost"></label>
+            <label>Processing Cost ($): <input type="number" id="processingCost"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="bvcResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Net Present Value -->
+<div class="formula-block" data-name="npv">
+    <section class="content">
+        <h2>Net Present Value</h2>
+        <div>\[ NPV = \sum_{t=1}^{n} \frac{CF_t}{(1 + r)^t} - I \]</div>
+        <form id="npvForm">
+            <label>Initial Investment ($): <input type="number" id="investment"></label>
+            <label>Discount Rate (%): <input type="number" id="discountRate"></label>
+            <div id="cashFlows">
+                <label>Year 1 Cash Flow: <input type="number" class="cashFlow"></label>
+            </div>
+            <button type="button" id="addCashFlow">Add Year</button>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="npvResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Break-Even Stripping Ratio -->
+<div class="formula-block" data-name="besr">
+    <section class="content">
+        <h2>Break-Even Stripping Ratio</h2>
+        <div>\[ BESR = \frac{S_p - C_p}{C_s} \]</div>
+        <form id="besrForm">
+            <label>Selling Price ($/t): <input type="number" id="sp"></label>
+            <label>Production Cost ($/t): <input type="number" id="cp"></label>
+            <label>Stripping Cost ($/m³): <input type="number" id="cs"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="besrResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Lerchs-Grossmann Pit Optimization -->
+<div class="formula-block" data-name="lerchs-grossmann">
+    <section class="content">
+        <h2>Lerchs-Grossmann Parameters</h2>
+        <div>\[ \text{Maximize } \sum p_i x_i \text{ with } x_i \leq x_j \]</div>
+        <form id="lgForm">
+            <label>Block Profit ($): <input type="number" id="blockProfit"></label>
+            <label>Predecessor Blocks: <input type="text" id="predecessors"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="lgResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Production Scheduling -->
+<div class="formula-block" data-name="production-scheduling">
+    <section class="content">
+        <h2>Production Scheduling</h2>
+        <div>\[ \sum T_b y_{bt} \leq \text{Mining Capacity}_t \]</div>
+        <form id="schedulingForm">
+            <label>Block Tonnage (t): <input type="number" id="blockTonnage"></label>
+            <label>Mining Capacity (t): <input type="number" id="capacity"></label>
+            <label>Number of Periods: <input type="number" id="periods"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="schedulingResult" class="result-box"></div>
+    </section>
+</div>
+
+
+
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | Mine Planning & Design Section</p>
+    </footer>
+
+    <script>
+
+        // Block Value Calculation
+document.getElementById("bvcForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const grade = parseFloat(document.getElementById("grade").value);
+    const recovery = parseFloat(document.getElementById("recovery").value)/100;
+    const price = parseFloat(document.getElementById("price").value);
+    const miningCost = parseFloat(document.getElementById("miningCost").value);
+    const processingCost = parseFloat(document.getElementById("processingCost").value);
+    
+    const bvc = (grade * recovery * price) - (miningCost + processingCost);
+    document.getElementById("bvcResult").innerHTML = 
+        `Block Value: <b>$${bvc.toFixed(2)}</b>`;
+});
+
+// NPV Calculator
+let cashFlowCount = 1;
+document.getElementById("addCashFlow").addEventListener("click", function() {
+    cashFlowCount++;
+    const newInput = document.createElement("label");
+    newInput.innerHTML = `Year ${cashFlowCount} Cash Flow: <input type="number" class="cashFlow">`;
+    document.getElementById("cashFlows").appendChild(newInput);
+});
+
+document.getElementById("npvForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const initial = parseFloat(document.getElementById("investment").value);
+    const rate = parseFloat(document.getElementById("discountRate").value)/100;
+    const cashFlows = Array.from(document.querySelectorAll(".cashFlow"))
+                         .map(input => parseFloat(input.value));
+    
+    let npv = -initial;
+    cashFlows.forEach((cf, index) => {
+        npv += cf / Math.pow(1 + rate, index + 1);
+    });
+    
+    document.getElementById("npvResult").innerHTML = 
+        `NPV: <b>$${npv.toFixed(2)}</b>`;
+});
+
+// BESR Calculator
+document.getElementById("besrForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const sp = parseFloat(document.getElementById("sp").value);
+    const cp = parseFloat(document.getElementById("cp").value);
+    const cs = parseFloat(document.getElementById("cs").value);
+    
+    if(cs === 0) {
+        document.getElementById("besrResult").innerHTML = "Stripping cost cannot be zero";
+        return;
+    }
+    
+    const besr = (sp - cp) / cs;
+    document.getElementById("besrResult").innerHTML = 
+        `BESR: <b>${besr.toFixed(2)} m³/%</b>`;
+});
+
+// Production Scheduling
+document.getElementById("schedulingForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const tonnage = parseFloat(document.getElementById("blockTonnage").value);
+    const capacity = parseFloat(document.getElementById("capacity").value);
+    const periods = parseFloat(document.getElementById("periods").value);
+    
+    const possible = Math.floor((tonnage * periods) / capacity);
+    document.getElementById("schedulingResult").innerHTML = 
+        `Mineable Blocks: <b>${possible}</b>`;
+});
+
+
+
+        // Search functionality
+        document.getElementById("searchBox").addEventListener("input", function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll(".formula-block").forEach(block => {
+                const name = block.dataset.name.toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

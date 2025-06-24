@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mining Machinery & Operations</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .input-group { margin: 1rem 0; }
+        .input-group label { display: block; margin-bottom: 0.5rem; }
+        .matrix-input { display: grid; gap: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mining Machinery & Operations</h1>
+        <p>Equipment selection, performance optimization, maintenance planning, and operational systems for extraction and material handling.</p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+
+        <!-- Dumper Cycle Time Calculator -->
+<div class="formula-block" data-name="dumper-cycle">
+    <section class="content">
+        <h2>Dumper Cycle Time</h2>
+        <div>\[ \text{Cycle Time} = T_{spot} + T_{load} + T_{haul} + T_{dump} + T_{return} \]</div>
+        <form id="cycleForm">
+            <label>Spotting Time (min): <input type="number" id="tSpot"></label>
+            <label>Loading Time (min): <input type="number" id="tLoad"></label>
+            <label>Haul Time (min): <input type="number" id="tHaul"></label>
+            <label>Dump Time (min): <input type="number" id="tDump"></label>
+            <label>Return Time (min): <input type="number" id="tReturn"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="cycleResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Utilization Factor Calculator -->
+<div class="formula-block" data-name="utilization">
+    <section class="content">
+        <h2>Utilization Factor</h2>
+        <div>\[ UF = \frac{\text{Actual Operating Time}}{\text{Total Available Time}} \]</div>
+        <form id="utilizationForm">
+            <label>Operating Time (hr): <input type="number" id="opTime"></label>
+            <label>Available Time (hr): <input type="number" id="totalTime"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="utilizationResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Belt Conveyor Capacity Calculator -->
+<div class="formula-block" data-name="conveyor">
+    <section class="content">
+        <h2>Belt Conveyor Capacity</h2>
+        <div>\[ Q = 60 \times A \times v \times \rho \]</div>
+        <form id="conveyorForm">
+            <label>Cross-section Area (m²): <input type="number" id="area"></label>
+            <label>Belt Speed (m/s): <input type="number" id="speed"></label>
+            <label>Density (t/m³): <input type="number" id="density"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="conveyorResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Hourly Shovel Output Calculator -->
+<div class="formula-block" data-name="shovel-output">
+    <section class="content">
+        <h2>Shovel Hourly Output</h2>
+        <div>\[ \text{Output} = \frac{B \times F \times T \times 3600}{C \times L} \]</div>
+        <form id="shovelForm">
+            <label>Bucket Capacity (m³): <input type="number" id="bucket"></label>
+            <label>Fill Factor: <input type="number" id="fill" step="0.01"></label>
+            <label>Time Factor: <input type="number" id="timeFactor" step="0.01"></label>
+            <label>Cycle Time (sec): <input type="number" id="cycle"></label>
+            <label>Looseness Factor: <input type="number" id="looseness" step="0.01"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="shovelResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Rope Factor of Safety Calculator -->
+<div class="formula-block" data-name="rope-safety">
+    <section class="content">
+        <h2>Rope Factor of Safety</h2>
+        <div>\[ FOS = \frac{\text{Breaking Strength}}{\text{Max Static Load}} \]</div>
+        <form id="ropeForm">
+            <label>Breaking Strength (kN): <input type="number" id="breaking"></label>
+            <label>Static Load (kN): <input type="number" id="static"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="ropeResult" class="result-box"></div>
+    </section>
+</div>
+
+
+
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | Mining Machinery & Operations Section</p>
+    </footer>
+
+    <script>
+
+        // Dumper Cycle Time Calculator
+document.getElementById("cycleForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const inputs = ["tSpot", "tLoad", "tHaul", "tDump", "tReturn"]
+        .map(id => parseFloat(document.getElementById(id).value));
+    
+    if (inputs.some(isNaN)) {
+        document.getElementById("cycleResult").innerText = "Please fill all fields";
+        return;
+    }
+    
+    const total = inputs.reduce((a, b) => a + b, 0);
+    document.getElementById("cycleResult").innerHTML = 
+        `Total Cycle Time: <b>${total.toFixed(2)} minutes</b>`;
+});
+
+// Utilization Factor Calculator
+document.getElementById("utilizationForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const opTime = parseFloat(document.getElementById("opTime").value);
+    const totalTime = parseFloat(document.getElementById("totalTime").value);
+    
+    if (isNaN(opTime) || isNaN(totalTime) || totalTime === 0) {
+        document.getElementById("utilizationResult").innerText = "Invalid inputs";
+        return;
+    }
+    
+    const uf = (opTime / totalTime) * 100;
+    document.getElementById("utilizationResult").innerHTML = 
+        `Utilization Factor: <b>${uf.toFixed(2)}%</b>`;
+});
+
+// Belt Conveyor Capacity Calculator
+document.getElementById("conveyorForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const area = parseFloat(document.getElementById("area").value);
+    const speed = parseFloat(document.getElementById("speed").value);
+    const density = parseFloat(document.getElementById("density").value);
+    
+    if ([area, speed, density].some(isNaN)) {
+        document.getElementById("conveyorResult").innerText = "Invalid inputs";
+        return;
+    }
+    
+    const capacity = 60 * area * speed * density;
+    document.getElementById("conveyorResult").innerHTML = 
+        `Conveyor Capacity: <b>${capacity.toFixed(2)} tonnes/hr</b>`;
+});
+
+// Shovel Hourly Output Calculator
+document.getElementById("shovelForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const bucket = parseFloat(document.getElementById("bucket").value);
+    const fill = parseFloat(document.getElementById("fill").value);
+    const timeFactor = parseFloat(document.getElementById("timeFactor").value);
+    const cycle = parseFloat(document.getElementById("cycle").value);
+    const looseness = parseFloat(document.getElementById("looseness").value);
+    
+    if ([bucket, fill, timeFactor, cycle, looseness].some(isNaN)) {
+        document.getElementById("shovelResult").innerText = "Invalid inputs";
+        return;
+    }
+    
+    const output = (bucket * fill * timeFactor * 3600) / (cycle * looseness);
+    document.getElementById("shovelResult").innerHTML = 
+        `Hourly Output: <b>${output.toFixed(2)} m³/hr</b>`;
+});
+
+// Rope Factor of Safety Calculator
+document.getElementById("ropeForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const breaking = parseFloat(document.getElementById("breaking").value);
+    const staticLoad = parseFloat(document.getElementById("static").value);
+    
+    if (isNaN(breaking) || isNaN(staticLoad) || staticLoad === 0) {
+        document.getElementById("ropeResult").innerText = "Invalid inputs";
+        return;
+    }
+    
+    const fos = breaking / staticLoad;
+    document.getElementById("ropeResult").innerHTML = 
+        `Factor of Safety: <b>${fos.toFixed(2)}</b>`;
+});
+        
+
+
+        // Search functionality
+        document.getElementById("searchBox").addEventListener("input", function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll(".formula-block").forEach(block => {
+                const name = block.dataset.name.toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

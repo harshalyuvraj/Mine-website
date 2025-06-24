@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mining Machinery & Operations</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .input-group { margin: 1rem 0; }
+        .input-group label { display: block; margin-bottom: 0.5rem; }
+        .matrix-input { display: grid; gap: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mining Machinery & Operations</h1>
+        <p>Equipment selection, performance optimization, maintenance planning, and operational systems for extraction and material handling.</p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+
+        
+
+
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | Mining Machinery & Operations Section</p>
+    </footer>
+
+    <script>
+
+        
+
+
+        // Search functionality
+        document.getElementById("searchBox").addEventListener("input", function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll(".formula-block").forEach(block => {
+                const name = block.dataset.name.toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

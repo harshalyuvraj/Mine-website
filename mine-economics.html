@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mine economics</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .input-group { margin: 1rem 0; }
+        .input-group label { display: block; margin-bottom: 0.5rem; }
+        .matrix-input { display: grid; gap: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mine economics</h1>
+        <p>Economic evaluation, capital and operational cost estimation, NPV analysis, and financial modeling for mining project feasibility.</p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+        <!-- Future Value of Single Payment -->
+<div class="formula-block" data-name="future-value-single">
+    <section class="content">
+        <h2>Future Value of Single Payment</h2>
+        <div>$$ FV = PV(1+i)^n $$</div>
+        <form id="fvSingleForm">
+            <label>Present Value (PV): <input type="number" id="pvSingle" step="0.01" required></label>
+            <label>Interest Rate (i, %): <input type="number" id="rateSingle" step="0.01" required></label>
+            <label>Time Period (n, years): <input type="number" id="timeSingle" step="1" required></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="fvSingleResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Effective Rate of Return -->
+<div class="formula-block" data-name="effective-rate">
+    <section class="content">
+        <h2>Effective Rate of Return</h2>
+        <div>$$ Annual: [(1+i)^n-1]_{×100} \\ Half\text{-}yearly: [(1+\frac{i}{2})^{2n}-1]_{×100} \\ Quarterly: [(1+\frac{i}{4})^{4n}-1]_{×100} $$</div>
+        <form id="effectiveRateForm">
+            <label>Interest Rate (i, %): <input type="number" id="interestEffective" step="0.01" required></label>
+            <label>Time Period (n, years): <input type="number" id="timeEffective" step="1" required></label>
+            <label>Compounding: 
+                <select id="compoundingPeriod">
+                    <option value="annual">Annual</option>
+                    <option value="semi">Half-yearly</option>
+                    <option value="quarterly">Quarterly</option>
+                </select>
+            </label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="effectiveRateResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Future Value of Annuity -->
+<div class="formula-block" data-name="future-value-annuity">
+    <section class="content">
+        <h2>Future Value of Annuity</h2>
+        <div>$$ FV = A\left[\frac{(1+i)^n-1}{i}\right] $$</div>
+        <form id="fvAnnuityForm">
+            <label>Annual Payment (A): <input type="number" id="paymentAnnuity" step="0.01" required></label>
+            <label>Interest Rate (i, %): <input type="number" id="rateAnnuity" step="0.01" required></label>
+            <label>Time Period (n, years): <input type="number" id="timeAnnuity" step="1" required></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="fvAnnuityResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Present Value of Annuity -->
+<div class="formula-block" data-name="present-value-annuity">
+    <section class="content">
+        <h2>Present Value of Annuity</h2>
+        <div>$$ PV = A\left[\frac{(1+i)^n-1}{i(1+i)^n}\right] $$</div>
+        <form id="pvAnnuityForm">
+            <label>Annual Payment (A): <input type="number" id="paymentPV" step="0.01" required></label>
+            <label>Interest Rate (i, %): <input type="number" id="ratePV" step="0.01" required></label>
+            <label>Time Period (n, years): <input type="number" id="timePV" step="1" required></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="pvAnnuityResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Net Present Value -->
+<div class="formula-block" data-name="npv">
+    <section class="content">
+        <h2>Net Present Value (NPV)</h2>
+        <div>$$ NPV = \left[\frac{CF_1}{(1+i)} + \frac{CF_2}{(1+i)^2} + ... \frac{CF_n}{(1+i)^n}\right] - CF_0 $$</div>
+        <form id="npvForm">
+            <label>Initial Investment (CF₀): <input type="number" id="initialInvestment" step="0.01" required></label>
+            <label>Interest Rate (i, %): <input type="number" id="discountRate" step="0.01" required></label>
+            <div id="cashFlowInputs">
+                <label>Cash Flow Year 1 (CF₁): <input type="number" class="cashFlow" step="0.01" required></label>
+            </div>
+            <button type="button" id="addCashFlow">+ Add Cash Flow</button>
+            <button type="submit">Calculate NPV</button>
+        </form>
+        <div id="npvResult" class="result-box"></div>
+    </section>
+</div>
+
+        
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | Mine economics Section</p>
+    </footer>
+
+    <script>
+
+        // Future Value of Single Payment
+document.getElementById("fvSingleForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const pv = parseFloat(document.getElementById("pvSingle").value);
+    const rate = parseFloat(document.getElementById("rateSingle").value) / 100;
+    const time = parseInt(document.getElementById("timeSingle").value);
+    
+    const fv = pv * Math.pow(1 + rate, time);
+    
+    document.getElementById("fvSingleResult").innerHTML = `
+        <p>Future Value (FV): ${fv.toFixed(2)}</p>
+        <p class="note">Your ${pv.toFixed(2)} will grow to ${fv.toFixed(2)} after ${time} years at ${(rate*100).toFixed(2)}% interest.</p>
+    `;
+});
+
+// Effective Rate of Return
+document.getElementById("effectiveRateForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const rate = parseFloat(document.getElementById("interestEffective").value) / 100;
+    const time = parseInt(document.getElementById("timeEffective").value);
+    const compounding = document.getElementById("compoundingPeriod").value;
+    
+    let effectiveRate;
+    
+    switch(compounding) {
+        case "annual":
+            effectiveRate = Math.pow(1 + rate, time) - 1;
+            break;
+        case "semi":
+            effectiveRate = Math.pow(1 + rate/2, 2 * time) - 1;
+            break;
+        case "quarterly":
+            effectiveRate = Math.pow(1 + rate/4, 4 * time) - 1;
+            break;
+    }
+    
+    document.getElementById("effectiveRateResult").innerHTML = `
+        <p>Effective Rate of Return: ${(effectiveRate * 100).toFixed(2)}%</p>
+        <p class="note">With ${compounding} compounding over ${time} years, the effective rate is ${(effectiveRate * 100).toFixed(2)}%.</p>
+    `;
+});
+
+// Future Value of Annuity
+document.getElementById("fvAnnuityForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const payment = parseFloat(document.getElementById("paymentAnnuity").value);
+    const rate = parseFloat(document.getElementById("rateAnnuity").value) / 100;
+    const time = parseInt(document.getElementById("timeAnnuity").value);
+    
+    const fv = payment * ((Math.pow(1 + rate, time) - 1) / rate);
+    
+    document.getElementById("fvAnnuityResult").innerHTML = `
+        <p>Future Value (FV): ${fv.toFixed(2)}</p>
+        <p class="note">Annual payments of ${payment.toFixed(2)} for ${time} years at ${(rate*100).toFixed(2)}% will grow to ${fv.toFixed(2)}.</p>
+    `;
+});
+
+// Present Value of Annuity
+document.getElementById("pvAnnuityForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const payment = parseFloat(document.getElementById("paymentPV").value);
+    const rate = parseFloat(document.getElementById("ratePV").value) / 100;
+    const time = parseInt(document.getElementById("timePV").value);
+    
+    const pv = payment * ((Math.pow(1 + rate, time) - 1) / (rate * Math.pow(1 + rate, time)));
+    
+    document.getElementById("pvAnnuityResult").innerHTML = `
+        <p>Present Value (PV): ${pv.toFixed(2)}</p>
+        <p class="note">The present value of ${payment.toFixed(2)} annual payments for ${time} years at ${(rate*100).toFixed(2)}% is ${pv.toFixed(2)}.</p>
+    `;
+});
+
+// NPV Calculator with Dynamic Cash Flow Fields
+// Add initial cash flow field
+let cashFlowYear = 1;
+
+document.getElementById("addCashFlow").addEventListener("click", function() {
+    cashFlowYear++;
+    const newInput = document.createElement("label");
+    newInput.innerHTML = `Cash Flow Year ${cashFlowYear} (CF₂): <input type="number" class="cashFlow" step="0.01" required>`;
+    document.getElementById("cashFlowInputs").appendChild(newInput);
+});
+
+document.getElementById("npvForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const initialInvestment = parseFloat(document.getElementById("initialInvestment").value);
+    const rate = parseFloat(document.getElementById("discountRate").value) / 100;
+    const cashFlows = Array.from(document.querySelectorAll(".cashFlow")).map(input => parseFloat(input.value));
+    
+    let npv = -initialInvestment;
+    cashFlows.forEach((cf, index) => {
+        npv += cf / Math.pow(1 + rate, index + 1);
+    });
+    
+    const resultMessage = npv >= 0 ? 
+        "<span style='color:green'>Positive NPV - This investment is financially viable.</span>" : 
+        "<span style='color:red'>Negative NPV - This investment is not recommended.</span>";
+    
+    document.getElementById("npvResult").innerHTML = `
+        <p>Net Present Value (NPV): ${npv.toFixed(2)}</p>
+        <p class="note">${resultMessage}</p>
+    `;
+});
+
+        
+
+        // Search functionality
+        document.getElementById("searchBox").addEventListener("input", function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll(".formula-block").forEach(block => {
+                const name = block.dataset.name.toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

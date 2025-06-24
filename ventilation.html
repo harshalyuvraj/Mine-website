@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mine Ventilation</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Mine Ventilation</h1>
+        <p>
+            Airflow systems, contamination control, fan selection, and ventilation network design for maintaining safe atmospheric conditions underground.
+        </p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+
+        <div class="formula-block" data-name="atkinson equation">
+            <section class="content">
+                <h2>Atkinson's Equation Calculator</h2>
+                <section class="content">
+                    <h2>Mine Ventilation Formulas</h2>
+                    
+                    <h3>Atkinson’s Equation</h3>
+                    <div>
+                        $$
+                        \Delta P = \frac{KSQ^2}{A^3} = \frac{KSv^2}{A}
+                        $$
+                    </div>
+                    <ul>
+                        <li><b>K</b> &rarr; friction factor / coefficient of friction</li>
+                        <li><b>S</b> &rarr; wetted surface area = L &times; Perimeter</li>
+                        <li><b>v</b> &rarr; velocity of air</li>
+                        <li><b>Q</b> &rarr; flow rate</li>
+                        <li><b>A</b> &rarr; cross-sectional area</li>
+                    </ul>
+                    
+                    <h3>Square Law of Mine Ventilation</h3>
+                    <div>
+                        $$
+                        \Delta P = RQ^2
+                        $$
+                    </div>
+                    <ul>
+                        <li><b>R</b> &rarr; resistance of airway</li>
+                        <li><b>Q</b> &rarr; flow rate</li>
+                    </ul>
+                    
+                    
+                </section>
+                
+                <form id="atkinsonForm">
+                    <div class="input-group">
+                        <label for="K">Friction Factor (K):</label>
+                        <input type="number" id="K" step="any">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="L">Airway Length (L) in meters:</label>
+                        <input type="number" id="L" step="any">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="perimeter">Perimeter in meters:</label>
+                        <input type="number" id="perimeter" step="any">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="A">Cross-section Area (A) in m²:</label>
+                        <input type="number" id="A" step="any">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="Q">Air Quantity (Q) in m³/s:</label>
+                        <input type="number" id="Q" step="any">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="v">Air Velocity (v) in m/s:</label>
+                        <input type="number" id="v" step="any">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="dP">Pressure Loss (ΔP) in Pa:</label>
+                        <input type="number" id="dP" step="any">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="s">Wetted surface area (S):</label>
+                        <input type="number" id="s" step="any">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="R">Resistance of airway (R):</label>
+                        <input type="number" id="R" step="any">
+                    </div>
+                    
+                    <button type="submit">Calculate</button>
+                </form>
+                
+                <div id="atkinsonResults" class="results"></div>
+            </section>
+        </div>
+
+
+
+        <div class="formula-block" data-name="Ventilation Airflow">
+            <section class="content">
+                <h2>Ventilation Airflow</h2>
+                <p>Enter the necessary values to calculate Ventilation Airflow.</p>
+                <div>$$Q = \frac{V}{t}$$</div>
+                <form class="formulaForm" data-formula="ventilation_airflow">
+                    <label>Volume of Air (V) [m³]:</label><input type="number" name="volume"><br><br>
+                    <label>Time (t) [s]:</label><input type="number" name="time"><br><br>
+                    <button type="submit">Calculate</button>
+                </form>
+                <div class="result-box"></div>
+            </section>
+        </div>
+        
+        <div class="formula-block" data-name="Ventilation Resistance">
+            <section class="content">
+                <h2>Ventilation Resistance</h2>
+                <p>Enter the necessary values to calculate Ventilation Resistance.</p>
+                <div>$$R = \frac{P}{Q^2}$$</div>
+                <form class="formulaForm" data-formula="ventilation_resistance">
+                    <label>Pressure (P) [Pa]:</label><input type="number" name="pressure"><br><br>
+                    <label>Airflow (Q) [m³/s]:</label><input type="number" name="airflow"><br><br>
+                    <button type="submit">Calculate</button>
+                </form>
+                <div class="result-box"></div>
+            </section>
+        </div>
+        
+        <div class="formula-block" data-name="Ventilation Efficiency">
+            <section class="content">
+                <h2>Ventilation Efficiency</h2>
+                <p>Enter the necessary values to calculate Ventilation Efficiency.</p>
+                <div>$$\eta = \frac{Q_{\text{actual}}}{Q_{\text{theoretical}}} \times 100$$</div>
+                <form class="formulaForm" data-formula="ventilation_efficiency">
+                    <label>Actual Airflow (Q<sub>actual</sub>) [m³/s]:</label><input type="number" name="q_actual"><br><br>
+                    <label>Theoretical Airflow (Q<sub>theoretical</sub>) [m³/s]:</label><input type="number" name="q_theoretical"><br><br>
+                    <button type="submit">Calculate</button>
+                </form>
+                <div class="result-box"></div>
+            </section>
+        </div>
+        
+        <div class="formula-block" data-name="Airflow Rate in Ventilation">
+            <section class="content">
+                <h2>Airflow Rate in Ventilation</h2>
+                <p>Enter the necessary values to calculate the Airflow Rate in Ventilation.</p>
+                <div>$$Q = \frac{V}{t}$$</div>
+                <form class="formulaForm" data-formula="airflow_rate_ventilation">
+                    <label>Volume of Air (V) [m³]:</label><input type="number" name="volume_airflow"><br><br>
+                    <label>Time (t) [s]:</label><input type="number" name="time_airflow"><br><br>
+                    <button type="submit">Calculate</button>
+                </form>
+                <div class="result-box"></div>
+            </section>
+        </div>
+        
+        
+
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | Mine Ventilation Section</p>
+    </footer>
+
+    <script>
+
+
+        document.getElementById('atkinsonForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get input values
+            const inputs = {
+                K: parseFloat(document.getElementById('K').value),
+                L: parseFloat(document.getElementById('L').value),
+                perimeter: parseFloat(document.getElementById('perimeter').value),
+                A: parseFloat(document.getElementById('A').value),
+                Q: parseFloat(document.getElementById('Q').value),
+                v: parseFloat(document.getElementById('v').value),
+                dP: parseFloat(document.getElementById('dP').value),
+                s: parseFloat(document.getElementById('s').value),
+                R: parseFloat(document.getElementById('R').value)
+            };
+
+            // Calculate S if possible
+            let S = inputs.s;
+            if (!isNaN(inputs.L) && !isNaN(inputs.perimeter)) {
+                S = inputs.L * inputs.perimeter;
+            }
+
+            // Calculate possible variables
+            const results = [];
+            
+            // Calculate Q from v and A
+            let q = inputs.Q;
+            if (!isNaN(inputs.v) && !isNaN(inputs.A) && isNaN(inputs.Q)) {
+                q = inputs.v * inputs.A;
+                results.push(`Air Quantity (Q) = ${q.toFixed(2)} m³/s`);
+            }
+            
+            // Calculate v from Q and A
+            if (!isNaN(inputs.Q) && !isNaN(inputs.A) && isNaN(inputs.v)) {
+                const v = inputs.Q / inputs.A;
+                results.push(`Air Velocity (v) = ${v.toFixed(2)} m/s`);
+            }
+            
+            // Calculate ΔP using different methods
+            let p = inputs.dP;
+            
+            if (!isNaN(inputs.K) && S && !isNaN(inputs.Q) && !isNaN(inputs.A) && isNaN(inputs.dP)) {
+                // Atkinson's equation with Q
+                p = (inputs.K * S * Math.pow(inputs.Q, 2)) / Math.pow(inputs.A, 3);
+                results.push(`Pressure Loss (ΔP) = ${p.toFixed(2)} Pa`);
+            } else if (!isNaN(inputs.K) && S && !isNaN(inputs.v) && !isNaN(inputs.A) && isNaN(inputs.dP)) {
+                // Atkinson's equation with v
+                p = (inputs.K * S * Math.pow(inputs.v, 2)) / inputs.A;
+                results.push(`Pressure Loss (ΔP) = ${p.toFixed(2)} Pa`);
+            } else if (!isNaN(inputs.R) && q && isNaN(inputs.dP)) {
+                // Square Law
+                p = (inputs.R * q * q);
+                results.push(`Pressure Loss (ΔP) = ${p.toFixed(2)} Pa`);
+            }
+            
+            // Calculate K
+            // if (p && S && q && !isNaN(inputs.A) && isNaN(inputs.K)) {
+            //     const K = (p * Math.pow(inputs.A, 3)) / (S * Math.pow(q, 2));
+            //     results.push(`Friction Factor (K) = ${K.toFixed(5)}`);
+            // }
+            
+            // Calculate A
+            if (!isNaN(inputs.K) && S && q && p && isNaN(inputs.A)) {
+                const A = Math.cbrt((inputs.K * S * Math.pow(q, 2)) / p);
+                results.push(`Required Area (A) = ${A.toFixed(2)} m²`);
+            }
+
+            // Calculate R (Resistance) from Atkinson parameters
+            if (!isNaN(inputs.K) && S && !isNaN(inputs.A) && isNaN(inputs.R)) {
+                const R = (inputs.K * S) / Math.pow(inputs.A, 3);
+                results.push(`Resistance (R) = ${R.toFixed(6)} Ns²/m⁸`);
+            }
+
+            else if(q && p){
+                const R = p / (q * q);
+                results.push(`Resistance (R) = ${R.toFixed(6)} Ns²/m⁸`);
+            }
+
+            // Calculate K from R
+            if (!isNaN(inputs.R) && S && !isNaN(inputs.A) && isNaN(inputs.K)) {
+                const K = (inputs.R * Math.pow(inputs.A, 3)) / S;
+                results.push(`Friction Factor (K) = ${K.toFixed(6)}`);
+            }
+
+            else if (p && S && q && !isNaN(inputs.A) && isNaN(inputs.K)) {
+                const K = (p * Math.pow(inputs.A, 3)) / (S * Math.pow(q, 2));
+                results.push(`Friction Factor (K) = ${K.toFixed(5)}`);
+            }
+
+
+
+            // Display results
+            const resultsDiv = document.getElementById('atkinsonResults');
+            if (results.length > 0) {
+                resultsDiv.innerHTML = `<h3>Calculated Values:</h3>${results.join('<br>')}`;
+            } else {
+                resultsDiv.innerHTML = '⚠️ Insufficient data to calculate values. Provide at least 4 known parameters.';
+            }
+        });
+
+        // Search functionality
+        document.getElementById("searchBox").addEventListener("input", function () {
+            const query = this.value.toLowerCase();
+            const formulas = document.querySelectorAll(".formula-block");
+            formulas.forEach(block => {
+                const name = block.getAttribute("data-name").toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

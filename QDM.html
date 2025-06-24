@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>QDM - Mining Optimization</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .input-group { margin: 1rem 0; }
+        .input-group label { display: block; margin-bottom: 0.5rem; }
+        .matrix-input { display: grid; gap: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Quantitative Decision Making (QDM)</h1>
+        <p>Mathematical modeling, risk analysis, and optimization techniques for complex mining problems using statistical methods and simulation tools.</p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+
+        <!-- Simplex Method Calculator -->
+        <div class="formula-block" data-name="simplex method">
+            <section class="content">
+                <h2>Simplex Method for Linear Programming</h2>
+                <div style="background:#f8f9fa; padding:1em; border-radius:6px; margin-bottom:1em;">
+                    <b>How to use this calculator:</b>
+                    <ol>
+                        <li>Write your mining optimization problem as:<br>
+                            Maximize <b>Z = c₁·x₁ + c₂·x₂ + ... + cₙ·xₙ</b><br>
+                            Subject to:<br>
+                            <b>a₁₁·x₁ + a₁₂·x₂ + ... + a₁ₙ·xₙ ≤ b₁</b> (resource constraint 1)<br>
+                            <b>a₂₁·x₁ + a₂₂·x₂ + ... + a₂ₙ·xₙ ≤ b₂</b> (resource constraint 2)<br>
+                            ...<br>
+                            <b>x₁, x₂, ..., xₙ ≥ 0</b>
+                        </li>
+                        <li>
+                            <b>Enter coefficients for the objective function</b> (e.g., for Max Z = 50x₁ + 80x₂, enter <b>50,80</b>).
+                        </li>
+                        <li>
+                            <b>Enter each constraint on a new line, as:</b><br>
+                            <code>a₁,a₂,...,aₙ,b</code> (e.g., for 2x₁ + 4x₂ ≤ 100, enter <b>2,4,100</b>)
+                        </li>
+                        <li>
+                            <b>Click "Optimize" to solve.</b>
+                        </li>
+                    </ol>
+                    <div style="color:#555; font-size:0.9em;">
+                        <b>Example (Mine Production):</b><br>
+                        Maximize Z = 50x₁ + 80x₂<br>
+                        Subject to:<br>
+                        2x₁ + 4x₂ ≤ 100<br>
+                        3x₁ + 2x₂ ≤ 90<br>
+                        <b>Input:</b><br>
+                        Objective Coefficients: <code>50,80</code><br>
+                        Constraints:<br>
+                        <code>2,4,100</code><br>
+                        <code>3,2,90</code>
+                    </div>
+                </div>
+                <div>
+                    $$
+                    \begin{aligned}
+                    \text{Maximize: } & Z = c_1x_1 + c_2x_2 + \cdots + c_nx_n \\
+                    \text{Subject to: } & a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n \leq b_1 \\
+                    & \vdots \\
+                    & a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n \leq b_m \\
+                    & x_i \geq 0
+                    \end{aligned}
+                    $$
+                </div>
+                <form id="simplexForm">
+                    <div class="input-group">
+                        <label for="objective"><b>Objective Coefficients</b> (comma-separated):</label>
+                        <input type="text" id="objective" placeholder="E.g., 50,80" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="constraints"><b>Constraints</b> (one per line, format: a₁,a₂,...,aₙ,b):</label>
+                        <textarea id="constraints" rows="5" placeholder="E.g., 2,4,100&#10;3,2,90" required></textarea>
+                    </div>
+                    <button type="submit">Optimize</button>
+                </form>
+                <div id="simplexResult" class="result-box" style="margin-top:1em;"></div>
+                <div style="margin-top:1em; color:#555; font-size:0.95em;">
+                    <b>Result interpretation:</b><br>
+                    <b>x₁, x₂, ...</b> are your decision variables (e.g., tons mined, trucks used).<br>
+                    <b>s₁, s₂, ...</b> are slack variables (unused resources for each constraint).<br>
+                    If a slack variable is zero, that constraint is "tight" (fully used).
+                </div>
+            </section>
+        </div>
+
+
+
+        <!-- Linear Programming Standard Form (Display Only) -->
+<div class="formula-block" data-name="linear-programming">
+    <section class="content">
+        <h2>Linear Programming Standard Form</h2>
+        <div>
+            $$ \text{Maximize: } Z = c_1x_1 + c_2x_2 + \cdots + c_nx_n $$
+            $$ \text{Subject to: } \sum_{j=1}^n a_{ij}x_j \leq b_i \quad (i = 1,2,\ldots,m) $$
+            $$ x_j \geq 0 $$
+        </div>
+        <p>Use the QDM section for simplex/LP calculations.</p>
+    </section>
+</div>
+
+<!-- Transportation Problem (Display Only) -->
+<div class="formula-block" data-name="transportation-problem">
+    <section class="content">
+        <h2>Transportation Problem (Formulation)</h2>
+        <div>
+            $$ \text{Minimize: } Z = \sum_{i=1}^{m} \sum_{j=1}^{n} c_{ij} x_{ij} $$
+            $$ \text{Subject to: } \sum_{j=1}^{n} x_{ij} = a_i \quad (i = 1,2,\ldots,m) $$
+            $$ \sum_{i=1}^{m} x_{ij} = b_j \quad (j = 1,2,\ldots,n) $$
+            $$ x_{ij} \geq 0 $$
+        </div>
+        <p>Use the QDM section for transportation optimization.</p>
+    </section>
+</div>
+
+<!-- Assignment Problem (Display Only) -->
+<div class="formula-block" data-name="assignment-problem">
+    <section class="content">
+        <h2>Assignment Problem (Hungarian Method)</h2>
+        <div>
+            $$ \text{Minimize: } Z = \sum_{i=1}^{n} \sum_{j=1}^{n} c_{ij} x_{ij} $$
+            $$ \text{Subject to: } \sum_{j=1}^{n} x_{ij} = 1 \quad \forall i $$
+            $$ \sum_{i=1}^{n} x_{ij} = 1 \quad \forall j $$
+            $$ x_{ij} = 0 \text{ or } 1 $$
+        </div>
+        <p>Use the QDM section for assignment optimization.</p>
+    </section>
+</div>
+
+<!-- PERT Expected Time and Variance -->
+<div class="formula-block" data-name="pert">
+    <section class="content">
+        <h2>PERT Expected Time and Variance</h2>
+        <div>
+            $$ t_e = \frac{t_o + 4t_m + t_p}{6} $$
+            $$ \sigma^2 = \left(\frac{t_p - t_o}{6}\right)^2 $$
+        </div>
+        <form id="pertForm">
+            <label>Optimistic Time (t<sub>o</sub>): <input type="number" id="to"></label>
+            <label>Most Likely Time (t<sub>m</sub>): <input type="number" id="tm"></label>
+            <label>Pessimistic Time (t<sub>p</sub>): <input type="number" id="tp"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="pertResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Queuing Theory (M/M/1) -->
+<div class="formula-block" data-name="queuing-theory">
+    <section class="content">
+        <h2>Queuing Theory (M/M/1)</h2>
+        <div>
+            $$ L = \frac{\lambda}{\mu - \lambda} $$
+            $$ W = \frac{1}{\mu - \lambda} $$
+        </div>
+        <form id="queueForm">
+            <label>Arrival Rate (λ): <input type="number" id="lambda"></label>
+            <label>Service Rate (μ): <input type="number" id="mu"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="queueResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- EOQ Model -->
+<div class="formula-block" data-name="eoq">
+    <section class="content">
+        <h2>Economic Order Quantity (EOQ)</h2>
+        <div>
+            $$ EOQ = \sqrt{\frac{2DS}{H}} $$
+        </div>
+        <form id="eoqForm">
+            <label>Annual Demand (D): <input type="number" id="demand"></label>
+            <label>Order Cost (S): <input type="number" id="orderCost"></label>
+            <label>Holding Cost (H): <input type="number" id="holdingCost"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="eoqResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Monte Carlo Simulation (Mean) -->
+<div class="formula-block" data-name="monte-carlo">
+    <section class="content">
+        <h2>Monte Carlo Simulation (Sample Mean)</h2>
+        <div>
+            $$ \bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i $$
+        </div>
+        <form id="monteCarloForm">
+            <label>Enter values (comma-separated): <input type="text" id="mcValues"></label>
+            <button type="submit">Calculate Mean</button>
+        </form>
+        <div id="monteCarloResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Reliability of Series System -->
+<div class="formula-block" data-name="series-reliability">
+    <section class="content">
+        <h2>Reliability of Series System</h2>
+        <div>
+            $$ R_{system} = \prod_{i=1}^{n} R_i $$
+        </div>
+        <form id="seriesReliabilityForm">
+            <label>Enter reliabilities (comma-separated, e.g. 0.9,0.95,0.98): <input type="text" id="seriesReliabilities"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="seriesReliabilityResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Reliability of Parallel System -->
+<div class="formula-block" data-name="parallel-reliability">
+    <section class="content">
+        <h2>Reliability of Parallel System</h2>
+        <div>
+            $$ R_{system} = 1 - \prod_{i=1}^{n} (1 - R_i) $$
+        </div>
+        <form id="parallelReliabilityForm">
+            <label>Enter reliabilities (comma-separated, e.g. 0.9,0.95,0.98): <input type="text" id="parallelReliabilities"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="parallelReliabilityResult" class="result-box"></div>
+    </section>
+</div>
+
+
+
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | QDM Section</p>
+    </footer>
+
+    <script>
+
+        // Simplex Method Implementation
+        let numVars = 2, numConstraints = 2;
+
+        function createInputMatrix() {
+            numVars = parseInt(document.getElementById('numVars').value);
+            numConstraints = parseInt(document.getElementById('numConstraints').value);
+            
+            // Objective function inputs
+            let objHtml = '';
+            for(let i=0; i<numVars; i++) {
+                objHtml += `
+                    <div class="input-group">
+                        <label>x<sub>${i+1}</sub> Profit ($/unit):</label>
+                        <input type="number" id="c${i}" step="0.1" required>
+                    </div>
+                `;
+            }
+            document.getElementById('objectiveInputs').innerHTML = objHtml;
+
+            // Constraint matrix
+            let constHtml = '';
+            for(let i=0; i<numConstraints; i++) {
+                constHtml += `<div class="constraint-row">`;
+                for(let j=0; j<numVars; j++) {
+                    constHtml += `
+                        <div class="input-group">
+                            <label>x<sub>${j+1}</sub> in Constraint ${i+1}:</label>
+                            <input type="number" id="a${i}${j}" step="0.1" required>
+                        </div>
+                    `;
+                }
+                constHtml += `
+                    <div class="input-group">
+                        <label>Max Available:</label>
+                        <input type="number" id="b${i}" step="0.1" required>
+                    </div>
+                `;
+                constHtml += `</div>`;
+            }
+            document.getElementById('constraintInputs').innerHTML = constHtml;
+            document.getElementById('matrixInput').style.display = 'block';
+        }
+
+        class SimplexSolver {
+            constructor(c, A, b) {
+                this.c = c;
+                this.A = A;
+                this.b = b;
+                this.tableau = [];
+            }
+
+            initialize() {
+                const numSlacks = this.A.length;
+                this.tableau = this.A.map((row, i) => 
+                    [...row, ...Array(numSlacks).fill(0).map((_,j) => j === i ? 1 : 0), this.b[i]]
+                );
+                this.tableau.unshift([...this.c.map(v => -v), ...Array(numSlacks + 1).fill(0)]);
+            }
+
+            solve() {
+                while(true) {
+                    const pivotCol = this.tableau[0].slice(0, -1)
+                        .reduce((minIdx, val, idx, arr) => val < arr[minIdx] ? idx : minIdx, 0);
+                    
+                    if(this.tableau[0][pivotCol] >= 0) break;
+                    
+                    const ratios = [];
+                    for(let i=1; i<this.tableau.length; i++) {
+                        const val = this.tableau[i][pivotCol];
+                        ratios.push(val > 0 ? this.tableau[i][this.tableau[0].length-1]/val : Infinity);
+                    }
+                    const pivotRow = ratios.indexOf(Math.min(...ratios)) + 1;
+                    
+                    this.pivot(pivotRow, pivotCol);
+                }
+                return this.getSolution();
+            }
+
+            pivot(row, col) {
+                const pivotVal = this.tableau[row][col];
+                this.tableau[row] = this.tableau[row].map(v => v / pivotVal);
+                for(let i=0; i<this.tableau.length; i++) {
+                    if(i !== row) {
+                        const factor = this.tableau[i][col];
+                        this.tableau[i] = this.tableau[i].map((v, j) => v - factor * this.tableau[row][j]);
+                    }
+                }
+            }
+
+            getSolution() {
+                const solution = Array(this.c.length).fill(0);
+                const slacks = Array(this.A.length).fill(0);
+                
+                for(let col=0; col<this.c.length+this.A.length; col++) {
+                    const column = this.tableau.map(row => row[col]);
+                    if(column.filter(v => v === 1).length === 1 && column.every(v => v === 0 || v === 1)) {
+                        const rowIdx = column.indexOf(1);
+                        const value = this.tableau[rowIdx][this.tableau[0].length-1];
+                        if(col < this.c.length) solution[col] = value;
+                        else slacks[col - this.c.length] = value;
+                    }
+                }
+                
+                return {
+                    optimal: this.tableau[0][this.tableau[0].length-1],
+                    variables: solution,
+                    slacks: slacks
+                };
+            }
+        }
+
+        // Simplex Form Handler
+        document.getElementById("simplexForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            try {
+                // Parse inputs
+                const objective = document.getElementById("objective").value.split(",").map(Number);
+                const constraints = document.getElementById("constraints").value.split("\n")
+                    .map(line => line.split(",").map(Number));
+
+                // Validate inputs
+                if (objective.some(isNaN) || constraints.some(row => row.some(isNaN))) {
+                    throw new Error("Please enter numbers only, separated by commas.");
+                }
+                if (constraints.length === 0) {
+                    throw new Error("Please enter at least one constraint.");
+                }
+                if (constraints.some(row => row.length !== objective.length + 1)) {
+                    throw new Error("Each constraint must have the same number of coefficients as variables, plus the right-hand side.");
+                }
+
+                const A = constraints.map(row => row.slice(0, -1));
+                const b = constraints.map(row => row[row.length-1]);
+
+                // Solve
+                const solver = new SimplexSolver(objective, A, b);
+                solver.initialize();
+                const result = solver.solve();
+
+                // Display results
+                let output = `<strong>Optimal Value (Z):</strong> ${result.optimal.toFixed(2)}<br>`;
+                output += "<strong>Decision Variables:</strong><br>";
+                result.variables.forEach((v, i) => output += `x<sub>${i + 1}</sub> = ${v.toFixed(2)}<br>`);
+                output += "<strong>Slack Variables (Unused Resources):</strong><br>";
+                result.slacks.forEach((s, i) => output += `s<sub>${i + 1}</sub> = ${s.toFixed(2)}<br>`);
+                output += `<div style="margin-top:1em; color:#555; font-size:0.95em;">
+                    <b>Note:</b> x<sub>i</sub> values are optimal variable levels. s<sub>i</sub> values show unused resources for each constraint.
+                </div>`;
+
+                document.getElementById("simplexResult").innerHTML = output;
+
+            } catch (error) {
+                document.getElementById("simplexResult").innerHTML =
+                    `<span style="color:red;">⚠️ Error: ${error.message}</span>`;
+            }
+        });
+
+
+
+
+        // PERT Expected Time and Variance
+document.getElementById("pertForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const to = parseFloat(document.getElementById("to").value);
+    const tm = parseFloat(document.getElementById("tm").value);
+    const tp = parseFloat(document.getElementById("tp").value);
+    if ([to, tm, tp].some(isNaN)) {
+        document.getElementById("pertResult").innerText = "Please enter all times.";
+        return;
+    }
+    const te = (to + 4 * tm + tp) / 6;
+    const variance = Math.pow((tp - to) / 6, 2);
+    document.getElementById("pertResult").innerHTML =
+        `Expected Time (te): <b>${te.toFixed(2)}</b><br>Variance (σ²): <b>${variance.toFixed(4)}</b>`;
+});
+
+// Queuing Theory (M/M/1)
+document.getElementById("queueForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const lambda = parseFloat(document.getElementById("lambda").value);
+    const mu = parseFloat(document.getElementById("mu").value);
+    if (isNaN(lambda) || isNaN(mu) || mu <= lambda) {
+        document.getElementById("queueResult").innerText = "Enter λ < μ and both > 0.";
+        return;
+    }
+    const L = lambda / (mu - lambda);
+    const W = 1 / (mu - lambda);
+    document.getElementById("queueResult").innerHTML =
+        `Average number in system (L): <b>${L.toFixed(2)}</b><br>Average time in system (W): <b>${W.toFixed(2)}</b>`;
+});
+
+// EOQ Model
+document.getElementById("eoqForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const D = parseFloat(document.getElementById("demand").value);
+    const S = parseFloat(document.getElementById("orderCost").value);
+    const H = parseFloat(document.getElementById("holdingCost").value);
+    if ([D, S, H].some(isNaN) || D <= 0 || S <= 0 || H <= 0) {
+        document.getElementById("eoqResult").innerText = "Enter all positive values.";
+        return;
+    }
+    const EOQ = Math.sqrt((2 * D * S) / H);
+    document.getElementById("eoqResult").innerHTML = `EOQ: <b>${EOQ.toFixed(2)}</b>`;
+});
+
+// Monte Carlo Simulation (Mean)
+document.getElementById("monteCarloForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const values = document.getElementById("mcValues").value
+        .split(",")
+        .map(v => parseFloat(v.trim()))
+        .filter(v => !isNaN(v));
+    if (values.length === 0) {
+        document.getElementById("monteCarloResult").innerText = "Enter at least one value.";
+        return;
+    }
+    const mean = values.reduce((a, b) => a + b, 0) / values.length;
+    document.getElementById("monteCarloResult").innerHTML = `Sample Mean: <b>${mean.toFixed(4)}</b>`;
+});
+
+// Reliability of Series System
+document.getElementById("seriesReliabilityForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const reliabilities = document.getElementById("seriesReliabilities").value
+        .split(",")
+        .map(v => parseFloat(v.trim()))
+        .filter(v => !isNaN(v) && v >= 0 && v <= 1);
+    if (reliabilities.length === 0) {
+        document.getElementById("seriesReliabilityResult").innerText = "Enter values between 0 and 1.";
+        return;
+    }
+    const Rsys = reliabilities.reduce((a, b) => a * b, 1);
+    document.getElementById("seriesReliabilityResult").innerHTML = `System Reliability: <b>${Rsys.toFixed(4)}</b>`;
+});
+
+// Reliability of Parallel System
+document.getElementById("parallelReliabilityForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const reliabilities = document.getElementById("parallelReliabilities").value
+        .split(",")
+        .map(v => parseFloat(v.trim()))
+        .filter(v => !isNaN(v) && v >= 0 && v <= 1);
+    if (reliabilities.length === 0) {
+        document.getElementById("parallelReliabilityResult").innerText = "Enter values between 0 and 1.";
+        return;
+    }
+    const Rsys = 1 - reliabilities.reduce((a, b) => a * (1 - b), 1);
+    document.getElementById("parallelReliabilityResult").innerHTML = `System Reliability: <b>${Rsys.toFixed(4)}</b>`;
+});
+
+
+
+        // Search functionality
+        document.getElementById("searchBox").addEventListener("input", function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll(".formula-block").forEach(block => {
+                const name = block.dataset.name.toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

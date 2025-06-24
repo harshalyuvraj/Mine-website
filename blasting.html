@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Blasting & Explosives</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .input-group { margin: 1rem 0; }
+        .input-group label { display: block; margin-bottom: 0.5rem; }
+        .matrix-input { display: grid; gap: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Blasting & Explosives</h1>
+        <p>Blast design, pattern optimization, fragmentation analysis, and explosives selection for efficient rock breakage with minimal environmental impact.</p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+        <!-- Powder Factor Calculator -->
+<div class="formula-block" data-name="powder-factor">
+    <section class="content">
+        <h2>Powder Factor</h2>
+        <div>$$ PF = \frac{\text{Explosive Used (kg)}}{\text{Rock Blasted (tonnes)}} $$</div>
+        <form id="powderForm">
+            <label>Explosive (kg): <input type="number" id="explosive"></label>
+            <label>Rock Blasted (tonnes): <input type="number" id="rock"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="powderResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Dumper Cycle Time Calculator -->
+<div class="formula-block" data-name="dumper-cycle">
+    <section class="content">
+        <h2>Dumper Cycle Time</h2>
+        <div>$$ T_{cycle} = T_{spot} + T_{load} + T_{haul} + T_{dump} + T_{return} $$</div>
+        <form id="cycleForm">
+            <label>Spotting Time (min): <input type="number" id="tSpot"></label>
+            <label>Loading Time (min): <input type="number" id="tLoad"></label>
+            <label>Haul Time (min): <input type="number" id="tHaul"></label>
+            <label>Dump Time (min): <input type="number" id="tDump"></label>
+            <label>Return Time (min): <input type="number" id="tReturn"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="cycleResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Blast Volume Calculator -->
+<div class="formula-block" data-name="blast-volume">
+    <section class="content">
+        <h2>Blast Volume</h2>
+        <div>$$ V = B \times S \times BH \times N $$</div>
+        <form id="blastVolumeForm">
+            <label>Burden (m): <input type="number" id="burden"></label>
+            <label>Spacing (m): <input type="number" id="spacing"></label>
+            <label>Bench Height (m): <input type="number" id="benchHeight"></label>
+            <label>Number of Holes: <input type="number" id="numHoles"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="blastVolumeResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Hourly Shovel Output Calculator -->
+<div class="formula-block" data-name="shovel-output">
+    <section class="content">
+        <h2>Shovel Hourly Output</h2>
+        <div>$$ Q = \frac{B \times F \times T \times 3600}{C \times L} $$</div>
+        <form id="shovelForm">
+            <label>Bucket Capacity (m³): <input type="number" id="bucket"></label>
+            <label>Fill Factor: <input type="number" id="fill" step="0.01"></label>
+            <label>Time Factor: <input type="number" id="timeFactor" step="0.01"></label>
+            <label>Cycle Time (sec): <input type="number" id="cycle"></label>
+            <label>Looseness Factor: <input type="number" id="looseness" step="0.01"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="shovelResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Relative Weight Strength Calculator -->
+<div class="formula-block" data-name="rws">
+    <section class="content">
+        <h2>Relative Weight Strength (RWS)</h2>
+        <div>$$ RWS = \frac{AWS_{explosive}}{AWS_{ANFO}} \times 100 $$</div>
+        <form id="rwsForm">
+            <label>AWS Explosive: <input type="number" id="awsExp"></label>
+            <label>AWS ANFO: <input type="number" id="awsAnfo"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="rwsResult" class="result-box"></div>
+    </section>
+</div>
+
+        
+
+
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | Blasting & Explosives Section</p>
+    </footer>
+
+    <script>
+
+        // Powder Factor Calculator
+document.getElementById("powderForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const explosive = parseFloat(document.getElementById("explosive").value);
+    const rock = parseFloat(document.getElementById("rock").value);
+    
+    if (isNaN(explosive) || isNaN(rock) || rock === 0) {
+        document.getElementById("powderResult").innerHTML = "Invalid inputs";
+        return;
+    }
+    
+    const pf = explosive / rock;
+    document.getElementById("powderResult").innerHTML = 
+        `Powder Factor: <b>${pf.toFixed(2)} kg/tonne</b>`;
+});
+
+// Dumper Cycle Time Calculator
+document.getElementById("cycleForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const inputs = ["tSpot", "tLoad", "tHaul", "tDump", "tReturn"]
+        .map(id => parseFloat(document.getElementById(id).value));
+    
+    if (inputs.some(isNaN)) {
+        document.getElementById("cycleResult").innerHTML = "Please fill all fields";
+        return;
+    }
+    
+    const total = inputs.reduce((a, b) => a + b, 0);
+    document.getElementById("cycleResult").innerHTML = 
+        `Total Cycle Time: <b>${total.toFixed(1)} minutes</b>`;
+});
+
+// Blast Volume Calculator
+document.getElementById("blastVolumeForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const burden = parseFloat(document.getElementById("burden").value);
+    const spacing = parseFloat(document.getElementById("spacing").value);
+    const benchHeight = parseFloat(document.getElementById("benchHeight").value);
+    const numHoles = parseFloat(document.getElementById("numHoles").value);
+    
+    if ([burden, spacing, benchHeight, numHoles].some(isNaN)) {
+        document.getElementById("blastVolumeResult").innerHTML = "Invalid inputs";
+        return;
+    }
+    
+    const volume = burden * spacing * benchHeight * numHoles;
+    document.getElementById("blastVolumeResult").innerHTML = 
+        `Blast Volume: <b>${volume.toFixed(2)} m³</b>`;
+});
+
+// Shovel Hourly Output Calculator
+document.getElementById("shovelForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const bucket = parseFloat(document.getElementById("bucket").value);
+    const fill = parseFloat(document.getElementById("fill").value);
+    const timeFactor = parseFloat(document.getElementById("timeFactor").value);
+    const cycle = parseFloat(document.getElementById("cycle").value);
+    const looseness = parseFloat(document.getElementById("looseness").value);
+    
+    if ([bucket, fill, timeFactor, cycle, looseness].some(isNaN)) {
+        document.getElementById("shovelResult").innerHTML = "Invalid inputs";
+        return;
+    }
+    
+    const output = (bucket * fill * timeFactor * 3600) / (cycle * looseness);
+    document.getElementById("shovelResult").innerHTML = 
+        `Hourly Output: <b>${output.toFixed(2)} m³/hr</b>`;
+});
+
+// Relative Weight Strength Calculator
+document.getElementById("rwsForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const awsExp = parseFloat(document.getElementById("awsExp").value);
+    const awsAnfo = parseFloat(document.getElementById("awsAnfo").value);
+    
+    if (isNaN(awsExp) || isNaN(awsAnfo) || awsAnfo === 0) {
+        document.getElementById("rwsResult").innerHTML = "Invalid inputs";
+        return;
+    }
+    
+    const rws = (awsExp / awsAnfo) * 100;
+    document.getElementById("rwsResult").innerHTML = 
+        `RWS: <b>${rws.toFixed(1)}%</b>`;
+});
+
+
+
+        // Search functionality
+        document.getElementById("searchBox").addEventListener("input", function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll(".formula-block").forEach(block => {
+                const name = block.dataset.name.toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

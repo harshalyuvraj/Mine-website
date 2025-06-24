@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mineral Processing</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .input-group { margin: 1rem 0; }
+        .input-group label { display: block; margin-bottom: 0.5rem; }
+        .matrix-input { display: grid; gap: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mineral Processing</h1>
+        <p>Crushing, grinding, separation, and concentration techniques to extract valuable minerals from ore, including flotation and leaching processes.</p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+
+        <!-- Two-Product Formula Calculator -->
+<div class="formula-block" data-name="two-product-formula">
+    <section class="content">
+        <h2>Two-Product Formula Calculator</h2>
+        <p>Calculate missing values using mass and metal balances. Leave any two fields blank.</p>
+        <div class="formula">
+            $$ F = C + T \quad \text{and} \quad Ff = Cc + Tt $$
+        </div>
+        
+        <form id="twoProductForm">
+            <!-- Mass Balance Inputs -->
+            <div class="input-group">
+                <label for="F">Feed (F):</label>
+                <input type="number" id="F" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="C">Concentrate (C):</label>
+                <input type="number" id="C" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="T">Tailings (T):</label>
+                <input type="number" id="T" placeholder="Enter or leave blank">
+            </div>
+
+            <!-- Metal Balance Inputs -->
+            <div class="input-group">
+                <label for="f">Feed Grade (%):</label>
+                <input type="number" id="f" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="c">Concentrate Grade (%):</label>
+                <input type="number" id="c" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="t">Tailings Grade (%):</label>
+                <input type="number" id="t" placeholder="Enter or leave blank">
+            </div>
+
+            <button type="submit">Calculate</button>
+        </form>
+
+        <!-- Results -->
+        <div id="twoProductResult" class="result-box">
+            <p>Recovery (R): <span id="R"></span>%</p>
+        </div>
+    </section>
+</div>
+
+
+<!-- Three-Product Formula Calculator -->
+<div class="formula-block" data-name="three-product-formula">
+    <section class="content">
+        <h2>Three-Product Formula Calculator</h2>
+        <p>Calculate missing values for two concentrates and tailings using mass and metal balances. Leave exactly three fields blank.</p>
+        <div class="formula">
+            $$ 
+            \begin{aligned}
+            F &= C_1 + C_2 + T \\
+            Ff_1 &= C_1c_1 + C_2c_2 + Tt_1 \\
+            Ff_2 &= C_1d_1 + C_2d_2 + Tt_2
+            \end{aligned}
+            $$
+        </div>
+        
+        <form id="threeProductForm">
+            <!-- Mass Balance -->
+            <div class="input-group">
+                <label for="F">Feed (F):</label>
+                <input type="number" id="F" step="0.01" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="C1">Concentrate 1 (C₁):</label>
+                <input type="number" id="C1" step="0.01" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="C2">Concentrate 2 (C₂):</label>
+                <input type="number" id="C2" step="0.01" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="T">Tailings (T):</label>
+                <input type="number" id="T" step="0.01" placeholder="Enter or leave blank">
+            </div>
+
+            <!-- Metal 1 Assays (e.g., Pb) -->
+            <div class="input-group">
+                <label for="f1">Feed Grade 1 (%):</label>
+                <input type="number" id="f1" step="0.01" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="c1">Conc. 1 Grade 1 (%):</label>
+                <input type="number" id="c1" step="0.01" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="c2">Conc. 2 Grade 1 (%):</label>
+                <input type="number" id="c2" step="0.01" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="t1">Tailings Grade 1 (%):</label>
+                <input type="number" id="t1" step="0.01" placeholder="Enter or leave blank">
+            </div>
+
+            <!-- Metal 2 Assays (e.g., Zn) -->
+            <div class="input-group">
+                <label for="f2">Feed Grade 2 (%):</label>
+                <input type="number" id="f2" step="0.01" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="d1">Conc. 1 Grade 2 (%):</label>
+                <input type="number" id="d1" step="0.01" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="d2">Conc. 2 Grade 2 (%):</label>
+                <input type="number" id="d2" step="0.01" placeholder="Enter or leave blank">
+            </div>
+            <div class="input-group">
+                <label for="t2">Tailings Grade 2 (%):</label>
+                <input type="number" id="t2" step="0.01" placeholder="Enter or leave blank">
+            </div>
+
+            <button type="submit">Calculate</button>
+        </form>
+
+        <!-- Results -->
+        <div id="threeProductResult" class="result-box">
+            <p>Recovery Metal 1: <span id="R1"></span>%</p>
+            <p>Recovery Metal 2: <span id="R2"></span>%</p>
+        </div>
+    </section>
+</div>
+
+
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | Mineral Processing Section</p>
+    </footer>
+
+    <script>
+
+document.getElementById("twoProductForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    // Parse all inputs as numbers (NaN if blank)
+    const inputs = {
+        F: parseFloat(document.getElementById("F").value),
+        C: parseFloat(document.getElementById("C").value),
+        T: parseFloat(document.getElementById("T").value),
+        f: parseFloat(document.getElementById("f").value),
+        c: parseFloat(document.getElementById("c").value),
+        t: parseFloat(document.getElementById("t").value)
+    };
+
+    // Count missing variables
+    const missing = Object.values(inputs).filter(v => isNaN(v)).length;
+    if (missing !== 2) {
+        alert("Leave exactly two fields blank");
+        return;
+    }
+
+    try {
+        // Solve system of equations
+        let F, C, T, f, c, t;
+        
+        // Case 1: Solve for two mass variables (F, C, T)
+        if (isNaN(inputs.F) && isNaN(inputs.C)) {
+            throw new Error("Cannot solve for both F and C");
+        } else if (isNaN(inputs.F)) {
+            F = inputs.C + inputs.T;
+        } else if (isNaN(inputs.C)) {
+            C = F - inputs.T;
+        } else if (isNaN(inputs.T)) {
+            T = inputs.F - inputs.C;
+        }
+
+        // Case 2: Solve for two metal variables (f, c, t)
+        if (isNaN(inputs.f) && isNaN(inputs.c)) {
+            throw new Error("Cannot solve for both f and c");
+        } else if (isNaN(inputs.f)) {
+            f = (inputs.C * inputs.c + inputs.T * inputs.t) / inputs.F;
+        } else if (isNaN(inputs.c)) {
+            c = (inputs.F * inputs.f - inputs.T * inputs.t) / inputs.C;
+        } else if (isNaN(inputs.t)) {
+            t = (inputs.F * inputs.f - inputs.C * inputs.c) / inputs.T;
+        }
+
+        // Case 3: Cross-balance variables (e.g., F and f)
+        if (isNaN(inputs.F) && isNaN(inputs.f)) {
+            // Requires iterative solving (not implemented here)
+            throw new Error("Solving for F and f requires advanced methods");
+        }
+
+        // Update DOM
+        document.getElementById("F").value = F?.toFixed(2) || inputs.F.toFixed(2);
+        document.getElementById("C").value = C?.toFixed(2) || inputs.C.toFixed(2);
+        document.getElementById("T").value = T?.toFixed(2) || inputs.T.toFixed(2);
+        document.getElementById("f").value = f?.toFixed(2) || inputs.f.toFixed(2);
+        document.getElementById("c").value = c?.toFixed(2) || inputs.c.toFixed(2);
+        document.getElementById("t").value = t?.toFixed(2) || inputs.t.toFixed(2);
+
+        // Calculate recovery
+        const R = (inputs.C * inputs.c / (inputs.F * inputs.f)) * 100;
+        document.getElementById("R").textContent = R.toFixed(2);
+
+    } catch (error) {
+        document.getElementById("R").textContent = `Error: ${error.message}`;
+    }
+});
+
+
+document.getElementById("threeProductForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    // Parse all inputs
+    const inputs = {
+        F: parseFloat(document.getElementById("F").value),
+        C1: parseFloat(document.getElementById("C1").value),
+        C2: parseFloat(document.getElementById("C2").value),
+        T: parseFloat(document.getElementById("T").value),
+        f1: parseFloat(document.getElementById("f1").value),
+        c1: parseFloat(document.getElementById("c1").value),
+        c2: parseFloat(document.getElementById("c2").value),
+        t1: parseFloat(document.getElementById("t1").value),
+        f2: parseFloat(document.getElementById("f2").value),
+        d1: parseFloat(document.getElementById("d1").value),
+        d2: parseFloat(document.getElementById("d2").value),
+        t2: parseFloat(document.getElementById("t2").value)
+    };
+
+    // Count missing variables
+    const missing = Object.values(inputs).filter(v => isNaN(v)).length;
+    if (missing !== 3) {
+        alert("Leave exactly three fields blank");
+        return;
+    }
+
+    try {
+        // Build system of equations
+        let equations = [];
+        let variables = [];
+        let constants = [];
+
+        // Mass balance equation: F = C1 + C2 + T
+        if (isNaN(inputs.F) || isNaN(inputs.C1) || isNaN(inputs.C2) || isNaN(inputs.T)) {
+            equations.push([1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0]);
+            constants.push(0);
+        }
+
+        // Metal 1 balance: Ff1 = C1c1 + C2c2 + Tt1
+        if (isNaN(inputs.f1) || isNaN(inputs.c1) || isNaN(inputs.c2) || isNaN(inputs.t1)) {
+            equations.push([inputs.F, -inputs.C1, -inputs.C2, -inputs.T, 0, 0, 0, 0, 0, 0, 0]);
+            constants.push(0);
+        }
+
+        // Metal 2 balance: Ff2 = C1d1 + C2d2 + Tt2
+        if (isNaN(inputs.f2) || isNaN(inputs.d1) || isNaN(inputs.d2) || isNaN(inputs.t2)) {
+            equations.push([0, 0, 0, 0, inputs.F, -inputs.C1, -inputs.C2, -inputs.T, 0, 0, 0]);
+            constants.push(0);
+        }
+
+        // Solve using math.js (simplified example)
+        // Note: Actual implementation requires proper matrix setup based on missing variables
+        const solution = math.lusolve(equations, constants);
+        
+        // Update DOM with solution
+        // ... (implementation specific to missing variables)
+
+        // Calculate recoveries
+        const R1 = ((inputs.C1 * inputs.c1 + inputs.C2 * inputs.c2) / (inputs.F * inputs.f1)) * 100;
+        const R2 = ((inputs.C1 * inputs.d1 + inputs.C2 * inputs.d2) / (inputs.F * inputs.f2)) * 100;
+        
+        document.getElementById("R1").textContent = R1.toFixed(2);
+        document.getElementById("R2").textContent = R2.toFixed(2);
+
+    } catch (error) {
+        document.getElementById("threeProductResult").innerHTML = 
+            `⚠️ Error: ${error.message}`;
+    }
+});
+
+
+
+        // Search functionality
+        document.getElementById("searchBox").addEventListener("input", function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll(".formula-block").forEach(block => {
+                const name = block.dataset.name.toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

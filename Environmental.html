@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Environmental & Safety</title>
+    <link rel="stylesheet" href="geomechanics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .input-group { margin: 1rem 0; }
+        .input-group label { display: block; margin-bottom: 0.5rem; }
+        .matrix-input { display: grid; gap: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Environmental & Safety</h1>
+        <p>Environmental impact assessment, pollution control, reclamation strategies, and safety protocols to ensure regulatory compliance and worker protection.</p>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <!-- Search -->
+        <section class="search-section">
+            <input type="text" id="searchBox" placeholder="Search for a formula..." />
+        </section>
+
+        <!-- Sound Pressure Level (Lp) -->
+<div class="formula-block" data-name="sound-pressure-level">
+    <section class="content">
+        <h2>Sound Pressure Level (Lp)</h2>
+        <div>$$ L_p = 20 \log_{10} \left(\frac{P}{P_0}\right) $$</div>
+        <form id="splForm">
+            <label>Measured Pressure (P, Pa): <input type="number" id="splP" placeholder="Enter or leave blank"></label>
+            <label>Reference Pressure (P₀, Pa): <input type="number" id="splP0" value="0.00002" step="any"></label>
+            <label>Sound Pressure Level (Lp, dB): <input type="number" id="splLp" placeholder="Enter or leave blank"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="splResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Sound Power Level (Lw) -->
+<div class="formula-block" data-name="sound-power-level">
+    <section class="content">
+        <h2>Sound Power Level (Lw)</h2>
+        <div>$$ L_w = 10 \log_{10} \left(\frac{W}{W_0}\right) $$</div>
+        <form id="swlForm">
+            <label>Measured Power (W, W): <input type="number" id="swlW" placeholder="Enter or leave blank"></label>
+            <label>Reference Power (W₀, W): <input type="number" id="swlW0" value="1e-12" step="any"></label>
+            <label>Sound Power Level (Lw, dB): <input type="number" id="swlLw" placeholder="Enter or leave blank"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="swlResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Sound Intensity Level (Li) -->
+<div class="formula-block" data-name="sound-intensity-level">
+    <section class="content">
+        <h2>Sound Intensity Level (Li)</h2>
+        <div>$$ L_i = 10 \log_{10} \left(\frac{I}{I_0}\right) $$</div>
+        <form id="silForm">
+            <label>Measured Intensity (I, W/m²): <input type="number" id="silI" placeholder="Enter or leave blank"></label>
+            <label>Reference Intensity (I₀, W/m²): <input type="number" id="silI0" value="1e-12" step="any"></label>
+            <label>Sound Intensity Level (Li, dB): <input type="number" id="silLi" placeholder="Enter or leave blank"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="silResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Equivalent Noise Level (Leq, two intervals) -->
+<div class="formula-block" data-name="equivalent-noise-level">
+    <section class="content">
+        <h2>Equivalent Noise Level (Leq)</h2>
+        <div>
+            $$ L_{eq} = 10 \log_{10} \left( \frac{t_1 \cdot 10^{L_1/10} + t_2 \cdot 10^{L_2/10}}{t_1 + t_2} \right) $$
+        </div>
+        <form id="leqForm">
+            <label>Time 1 (t₁, hr): <input type="number" id="leqT1"></label>
+            <label>Level 1 (L₁, dB): <input type="number" id="leqL1"></label>
+            <label>Time 2 (t₂, hr): <input type="number" id="leqT2"></label>
+            <label>Level 2 (L₂, dB): <input type="number" id="leqL2"></label>
+            <label>Leq (dB): <input type="number" id="leqValue"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="leqResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- BOD at Time t -->
+<div class="formula-block" data-name="bod-at-t">
+    <section class="content">
+        <h2>BOD at Time t</h2>
+        <div>$$ BOD_t = BOD_L (1 - e^{-kt}) $$</div>
+        <form id="bodForm">
+            <label>BOD<sub>L</sub> (mg/L): <input type="number" id="bodL"></label>
+            <label>k (rate constant, 1/day): <input type="number" id="bodK"></label>
+            <label>t (days): <input type="number" id="bodT"></label>
+            <label>BOD<sub>t</sub> (mg/L): <input type="number" id="bodValue"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="bodResult" class="result-box"></div>
+    </section>
+</div>
+
+<!-- Total Suspended Solids (TSS) -->
+<div class="formula-block" data-name="tss">
+    <section class="content">
+        <h2>Total Suspended Solids (TSS)</h2>
+        <div>$$ TSS = \frac{A - B}{C} $$</div>
+        <form id="tssForm">
+            <label>Weight with Solid (A, mg): <input type="number" id="tssA"></label>
+            <label>Weight of Filter (B, mg): <input type="number" id="tssB"></label>
+            <label>Volume of Sample (C, L): <input type="number" id="tssC"></label>
+            <label>TSS (mg/L): <input type="number" id="tssValue"></label>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="tssResult" class="result-box"></div>
+    </section>
+</div>
+
+        
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mining Toolkit | Environmental & Safety Section</p>
+    </footer>
+
+    <script>
+
+        // Sound Pressure Level (Lp)
+document.getElementById("splForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const P = parseFloat(document.getElementById("splP").value);
+    const P0 = parseFloat(document.getElementById("splP0").value);
+    const Lp = parseFloat(document.getElementById("splLp").value);
+
+    if (!isNaN(P) && !isNaN(P0) && isNaN(Lp)) {
+        document.getElementById("splLp").value = (20 * Math.log10(P / P0)).toFixed(2);
+        document.getElementById("splResult").innerText = "Calculated Lp (dB)";
+    } else if (!isNaN(Lp) && !isNaN(P0) && isNaN(P)) {
+        document.getElementById("splP").value = (P0 * Math.pow(10, Lp / 20)).toExponential(4);
+        document.getElementById("splResult").innerText = "Calculated Pressure (Pa)";
+    } else {
+        alert("Enter any two values.");
+    }
+});
+
+// Sound Power Level (Lw)
+document.getElementById("swlForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const W = parseFloat(document.getElementById("swlW").value);
+    const W0 = parseFloat(document.getElementById("swlW0").value);
+    const Lw = parseFloat(document.getElementById("swlLw").value);
+
+    if (!isNaN(W) && !isNaN(W0) && isNaN(Lw)) {
+        document.getElementById("swlLw").value = (10 * Math.log10(W / W0)).toFixed(2);
+        document.getElementById("swlResult").innerText = "Calculated Lw (dB)";
+    } else if (!isNaN(Lw) && !isNaN(W0) && isNaN(W)) {
+        document.getElementById("swlW").value = (W0 * Math.pow(10, Lw / 10)).toExponential(4);
+        document.getElementById("swlResult").innerText = "Calculated Power (W)";
+    } else {
+        alert("Enter any two values.");
+    }
+});
+
+// Sound Intensity Level (Li)
+document.getElementById("silForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const I = parseFloat(document.getElementById("silI").value);
+    const I0 = parseFloat(document.getElementById("silI0").value);
+    const Li = parseFloat(document.getElementById("silLi").value);
+
+    if (!isNaN(I) && !isNaN(I0) && isNaN(Li)) {
+        document.getElementById("silLi").value = (10 * Math.log10(I / I0)).toFixed(2);
+        document.getElementById("silResult").innerText = "Calculated Li (dB)";
+    } else if (!isNaN(Li) && !isNaN(I0) && isNaN(I)) {
+        document.getElementById("silI").value = (I0 * Math.pow(10, Li / 10)).toExponential(4);
+        document.getElementById("silResult").innerText = "Calculated Intensity (W/m²)";
+    } else {
+        alert("Enter any two values.");
+    }
+});
+
+// Equivalent Noise Level (Leq, two intervals)
+document.getElementById("leqForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const t1 = parseFloat(document.getElementById("leqT1").value);
+    const L1 = parseFloat(document.getElementById("leqL1").value);
+    const t2 = parseFloat(document.getElementById("leqT2").value);
+    const L2 = parseFloat(document.getElementById("leqL2").value);
+    const Leq = parseFloat(document.getElementById("leqValue").value);
+
+    if (!isNaN(t1) && !isNaN(L1) && !isNaN(t2) && !isNaN(L2) && isNaN(Leq)) {
+        const leq = 10 * Math.log10((t1 * Math.pow(10, L1/10) + t2 * Math.pow(10, L2/10)) / (t1 + t2));
+        document.getElementById("leqValue").value = leq.toFixed(2);
+        document.getElementById("leqResult").innerText = "Calculated Leq (dB)";
+    } else {
+        alert("Fill all except the one you want to calculate (Leq).");
+    }
+});
+
+// BOD at Time t
+document.getElementById("bodForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const L = parseFloat(document.getElementById("bodL").value);
+    const k = parseFloat(document.getElementById("bodK").value);
+    const t = parseFloat(document.getElementById("bodT").value);
+    const BODt = parseFloat(document.getElementById("bodValue").value);
+
+    if (!isNaN(L) && !isNaN(k) && !isNaN(t) && isNaN(BODt)) {
+        document.getElementById("bodValue").value = (L * (1 - Math.exp(-k * t))).toFixed(2);
+        document.getElementById("bodResult").innerText = "Calculated BODₜ (mg/L)";
+    } else if (!isNaN(BODt) && !isNaN(k) && !isNaN(t) && isNaN(L)) {
+        document.getElementById("bodL").value = (BODt / (1 - Math.exp(-k * t))).toFixed(2);
+        document.getElementById("bodResult").innerText = "Calculated BOD_L (mg/L)";
+    } else {
+        alert("Enter any three values.");
+    }
+});
+
+// Total Suspended Solids (TSS)
+document.getElementById("tssForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const A = parseFloat(document.getElementById("tssA").value);
+    const B = parseFloat(document.getElementById("tssB").value);
+    const C = parseFloat(document.getElementById("tssC").value);
+    const TSS = parseFloat(document.getElementById("tssValue").value);
+
+    if (!isNaN(A) && !isNaN(B) && !isNaN(C) && isNaN(TSS)) {
+        document.getElementById("tssValue").value = ((A - B) / C).toFixed(2);
+        document.getElementById("tssResult").innerText = "Calculated TSS (mg/L)";
+    } else if (!isNaN(TSS) && !isNaN(B) && !isNaN(C) && isNaN(A)) {
+        document.getElementById("tssA").value = (TSS * C + B).toFixed(2);
+        document.getElementById("tssResult").innerText = "Calculated A (mg)";
+    } else if (!isNaN(TSS) && !isNaN(A) && !isNaN(C) && isNaN(B)) {
+        document.getElementById("tssB").value = (A - TSS * C).toFixed(2);
+        document.getElementById("tssResult").innerText = "Calculated B (mg)";
+    } else if (!isNaN(TSS) && !isNaN(A) && !isNaN(B) && isNaN(C)) {
+        document.getElementById("tssC").value = ((A - B) / TSS).toFixed(2);
+        document.getElementById("tssResult").innerText = "Calculated C (L)";
+    } else {
+        alert("Enter any three values.");
+    }
+});
+
+
+        
+
+        // Search functionality
+        document.getElementById("searchBox").addEventListener("input", function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll(".formula-block").forEach(block => {
+                const name = block.dataset.name.toLowerCase();
+                block.style.display = name.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>
